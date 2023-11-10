@@ -1,0 +1,36 @@
+= Selenium Monitoring
+
+== Classes
+
+=== Tests
+
+It describes the details of a test with its cron
+
+- id: guid
+- title: string
+- cron: string
+- createdAt: DateTime
+- file: File
+- runnings: List<Run>
+
+=== Run
+
+It is a running of a test
+
+- id: guid
+- startedAt: DateTime
+- runtime: Time
+- result: ResultEnum
+- runPart: List<RunPart>
+
+=== ResultEnum
+
+- SUCCESSFUL, WARNING, ERROR
+
+=== RunPart
+
+- id: guid
+- title: string
+- orderNumber: int
+- runtime: Time,
+- result: ResultEnum
