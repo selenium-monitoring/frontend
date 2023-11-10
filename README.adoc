@@ -37,3 +37,11 @@ It is a running of a test
 - orderNumber: int
 - runtime: Time,
 - result: ResultEnum
+
+== Swagger endpoints import
+
+```
+sudo npm install @openapitools/openapi-generator-cli -g
+sudo openapi-generator-cli generate -i path/to/swagger.json -g typescript-angular -o path/to/output/angular-client
+cd path/to/output/angular-client
+```

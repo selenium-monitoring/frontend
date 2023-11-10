@@ -1,0 +1,29 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Test API",
+      "description": "A simple API for testing purposes",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/test": {
+        "get": {
+          "summary": "Test Endpoint",
+          "description": "A simple endpoint for testing purposes",
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Hello, this is a test endpoint!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
