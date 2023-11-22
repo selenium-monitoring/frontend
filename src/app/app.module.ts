@@ -1,20 +1,82 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { ApiModule } from './services/api.module';
+
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
-import {ApiModule} from './services/api.module';
+
+import { IconDefinition } from '@ant-design/icons-angular';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+
+import { LoginComponent } from './login/login.component';
+import { MainComponent } from './main/main.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+registerLocaleData(en);
+import { provideNzI18n, en_US } from 'ng-zorro-antd/i18n';
+
+import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
+const ngZorroConfig: NzConfig = {
+  message: { nzTop: 120 },
+  notification: { nzTop: 240 }
+};
+
+import { 
+  LockOutline, UserOutline
+ } from '@ant-design/icons-angular/icons';
+import { UploaderComponent } from './uploader/uploader.component';
+import { LoginService } from './login/login.service';
+import { appTitleStrategy } from './app-routing.module';
+import { TitleStrategy } from '@angular/router';
+const icons: IconDefinition[] = [
+  LockOutline, UserOutline
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    MainComponent,
+    UploaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ApiModule
+    ApiModule,
+    NzLayoutModule,
+    NzBreadCrumbModule,
+    NzMenuModule,
+    NzIconModule.forRoot(icons),
+    NzDropDownModule,
+    BrowserAnimationsModule,
+    NzGridModule,
+    NzFormModule,
+    NzButtonModule,
+    ReactiveFormsModule,
+    NzCheckboxModule,
+    NzInputModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    provideNzConfig(ngZorroConfig),
+    provideNzI18n(en_US),
+    LoginService,
+    {provide: TitleStrategy, useClass: appTitleStrategy}
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+ }

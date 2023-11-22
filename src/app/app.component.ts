@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   title = 'selenium-monitoring';
+  token = null;
   
   constructor(private apiService: ApiModule) { }
 
