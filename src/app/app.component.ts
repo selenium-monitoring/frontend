@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ApiModule } from './services';
 import { Observable } from 'rxjs';
+import { LoginService } from './login/login.service';
+import { User } from './login/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +14,15 @@ export class AppComponent {
   title = 'selenium-monitoring';
   token = null;
   
-  constructor(private apiService: ApiModule) { }
+  constructor(private apiService: ApiModule, private loginService: LoginService, private router: Router) {
+  }
+  get getUser() {
+    return this.loginService.getUser
+  }
+  logoutUser() {
+    this.loginService.logout()
+    this.router.navigateByUrl('login')
+  }
 
   // fetchData(): Observable<any> {
   //   return this.apiService.;

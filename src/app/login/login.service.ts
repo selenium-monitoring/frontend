@@ -6,6 +6,7 @@ export class LoginService {
     private user?: User;
   
     constructor() {
+      this.user = new User('test_user', '', new Date())
     }
   
     get getUser() {
@@ -14,5 +15,8 @@ export class LoginService {
 
     login(username: string, password: string) {
         this.user = new User(username, password, new Date())
+    }
+    logout() {
+      this.user = undefined;
     }
   }

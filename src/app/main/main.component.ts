@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../login/login.service';
 import { User } from '../login/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -9,7 +10,8 @@ import { User } from '../login/user.model';
 })
 export class MainComponent {
   user?: User;
-  constructor(private service: LoginService) {
-    this.user = service.getUser;
+
+  constructor(private loginService: LoginService, private router: Router) {
+    this.user = loginService.getUser;
   }
 }

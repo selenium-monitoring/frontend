@@ -23,6 +23,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -69,6 +70,7 @@ const icons: IconDefinition[] = [
     ReactiveFormsModule,
     NzCheckboxModule,
     NzInputModule,
+    NzAvatarModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),

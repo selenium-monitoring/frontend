@@ -41,5 +41,9 @@ export class LoginComponent {
     }
   }
 
-  constructor(private fb: NonNullableFormBuilder, private service: LoginService, private router: Router) {}
+  constructor(private fb: NonNullableFormBuilder, private service: LoginService, private router: Router) {
+    if (service.getUser?.isLoggedIn) {
+      router.navigateByUrl('')
+    }
+  }
 }
