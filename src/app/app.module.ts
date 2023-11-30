@@ -24,6 +24,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -43,6 +45,8 @@ import { UploaderComponent } from './uploader/uploader.component';
 import { LoginService } from './login/login.service';
 import { appTitleStrategy } from './app-routing.module';
 import { TitleStrategy } from '@angular/router';
+import { SiteListComponent } from './site-list/site-list.component';
+import { SiteComponent } from './site/site.component';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline
 ];
@@ -53,6 +57,8 @@ const icons: IconDefinition[] = [
     LoginComponent,
     MainComponent,
     UploaderComponent,
+    SiteListComponent,
+    SiteComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +77,8 @@ const icons: IconDefinition[] = [
     NzCheckboxModule,
     NzInputModule,
     NzAvatarModule,
+    NzTableModule,
+    NzPaginationModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),

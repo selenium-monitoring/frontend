@@ -1,18 +1,29 @@
 import { ApplicationConfig, Injectable, NgModule } from '@angular/core';
-import { RouterModule, RouterStateSnapshot, Routes, TitleStrategy, provideRouter } from '@angular/router';
+import { RouterModule, RouterStateSnapshot, Routes, TitleStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { UploaderComponent } from './uploader/uploader.component';
 import { Title } from '@angular/platform-browser';
+import { SiteListComponent } from './site-list/site-list.component';
+import { SiteComponent } from './site/site.component';
 
 const routes: Routes = [
-  {
-    path: '', title: 'Dashboard', component: MainComponent,
-    canActivate: [],
-  },
   { path: 'login', title: 'Login', component: LoginComponent },
-  { path: 'upload', title: 'Upload Test', component: UploaderComponent },
+  {
+    path: '', title: 'Dashboard',
+    canActivate: [],
+    children: [
+      { path: '', title: 'Dashboard', component: MainComponent },
+      { path: 'sites', title: 'Websites',
+      children: [
+        { path: '', title: 'Dashboard', component: SiteListComponent },
+        { path: ':id', title: 'Website Detail', component: SiteComponent},
+      ]
+    },
+    { path: 'upload', title: 'Upload Test', component: UploaderComponent },
+  ]
+},
 ];
 
 @NgModule({
@@ -38,7 +49,7 @@ export class appTitleStrategy extends TitleStrategy {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     {provide: TitleStrategy, useClass: appTitleStrategy},
   ]
 };
