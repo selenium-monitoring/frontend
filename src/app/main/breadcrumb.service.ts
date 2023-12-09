@@ -22,14 +22,12 @@ export class BreadcrumbService {
         })
     }
     urlFromSegments(segments: BreadcrumbInfo[], index: number): string[]|undefined {
-        console.log('getting url')
-        const url = segments.slice(0, index).map(item => item.url)
-        console.log(url)
+        const url = segments.slice(0, index+1).map(item => item.url)
         if (url.every(item => item !== undefined)) {
-            return undefined
+            // the if statement ensures type safety
+            return url as string[]
         }
-        // the if statement ensures type safety
-        return url as string[]
+        return undefined
     }
     get breadcrumbList() : BreadcrumbInfo[] {
         if (this.moreCrumbs) return [this.base, ...this.moreCrumbs]
