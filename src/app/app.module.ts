@@ -29,6 +29,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -87,6 +88,7 @@ const icons: IconDefinition[] = [
     NzSpaceModule,
     FormsModule,
     NzDividerModule,
+    NzToolTipModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),
