@@ -11,11 +11,9 @@ export class BreadcrumbInfo {
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
-    private breadcrumbs:string[] = []
-    private base = {name: 'Home', url:'/'}
+    private base:BreadcrumbInfo = {name: 'Home', url:'/'}
     private moreCrumbs?:BreadcrumbInfo[]
     constructor(private router:Router) {
-        this.breadcrumbs.push('Home')
         this.router.events.pipe(filter(event=>event instanceof NavigationEnd)).subscribe((event) => {
             this.moreCrumbs = this.router.lastSuccessfulNavigation?.finalUrl?.root.children['primary']
                                 ?.segments.map(item => new BreadcrumbInfo(item.path, item.path))
