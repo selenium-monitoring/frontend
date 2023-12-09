@@ -11,9 +11,9 @@ export class SiteComponent {
   results:Result[];
   constructor(private router: Router) {
     this.results = [
-      new Result(0, 'First Result', '0 * * * *', new Date(), 'Success'),
-      new Result(1, 'First Result', '0 * * * *', new Date(), 'Error'),
-      new Result(2, 'First Result', '0 * * * *', new Date(), 'Success'),
+      new Result(0, 'First Result', new Date(), 'Success'),
+      new Result(1, 'First Result', new Date(), 'Error'),
+      new Result(2, 'First Result', new Date(), 'Success'),
     ]
   }
 }

@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let site of siteTable.data">
-            <td><a href="{{ site.getUrl }}">{{ site.url }}</a></td>
+            <td><a [routerLink]="site.getUrl">{{ site.url }}</a></td>
             <td>{{ site.testCount }}</td>
             <td>{{ site.lastResult }}</td>
         </tr>

@@ -21,18 +21,18 @@ export class SiteListComponent {
 
   constructor(private router: Router) {
     this.sites = [
-      new Site(0, 'http://localhost/', new Date(), 3, "Success"),
-      new Site(1, 'http://example.com/', new Date(), 5, "Error"),
-      new Site(2, 'http://127.0.0.1/', new Date(), 1, "Success"),
-      new Site(3, 'http://localhost/', new Date(), 3, "Running"),
-      new Site(4, 'http://example.com/', new Date(), 5, "Error"),
-      new Site(5, 'http://127.0.0.1/', new Date(), 1, "Success"),
-      new Site(6, 'http://localhost/', new Date(), 3, "Success"),
-      new Site(7, 'http://example.com/', new Date(), 5, "Error"),
-      new Site(8, 'http://127.0.0.1/', new Date(), 1, "Success"),
-      new Site(9, 'http://localhost/', new Date(), 3, "Success"),
-      new Site(10, 'http://example.com/', new Date(), 5, "Error"),
-      new Site(11, 'http://127.0.0.1/', new Date(), 1, "Success"),
+      new Site(0, 'http://localhost/', new Date(), '', 3, "Success"),
+      new Site(1, 'http://example.com/', new Date(), '', 5, "Error"),
+      new Site(2, 'http://127.0.0.1/', new Date(), '', 1, "Success"),
+      new Site(3, 'http://localhost/', new Date(), '', 3, "Running"),
+      new Site(4, 'http://example.com/', new Date(), '', 5, "Error"),
+      new Site(5, 'http://127.0.0.1/', new Date(), '', 1, "Success"),
+      new Site(6, 'http://localhost/', new Date(), '', 3, "Success"),
+      new Site(7, 'http://example.com/', new Date(), '', 5, "Error"),
+      new Site(8, 'http://127.0.0.1/', new Date(), '', 1, "Success"),
+      new Site(9, 'http://localhost/', new Date(), '', 3, "Success"),
+      new Site(10, 'http://example.com/', new Date(), '', 5, "Error"),
+      new Site(11, 'http://127.0.0.1/', new Date(), '', 1, "Success"),
     ]
   }
 }

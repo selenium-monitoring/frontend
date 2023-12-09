@@ -1,11 +1,11 @@
 <ng-template #totalTemplate let-range="range" let-total>
     {{range[0]}}-{{range[1]}} of {{total}}
 </ng-template>
+
 <nz-table #resultsTable [nzData]="results" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
     <thead>
         <tr>
             <th>Name</th>
-            <th>Cron</th>
             <th>Created At</th>
             <th>Status</th>
             <th>Actions</th>
@@ -14,7 +14,6 @@
     <tbody>
         <tr *ngFor="let result of resultsTable.data">
             <td>{{ result.name }}</td>
-            <td>{{ result.cron }}</td>
             <td>{{ result.createdAt }}</td>
             <td>{{ result.Status }}</td>
             <td>TODO</td>
