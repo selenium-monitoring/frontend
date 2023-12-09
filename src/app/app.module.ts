@@ -22,10 +22,14 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+
 
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -39,7 +43,7 @@ const ngZorroConfig: NzConfig = {
 };
 
 import { 
-  LockOutline, UserOutline
+  LockOutline, UserOutline, InboxOutline, DownloadOutline
  } from '@ant-design/icons-angular/icons';
 import { UploaderComponent } from './uploader/uploader.component';
 import { LoginService } from './login/login.service';
@@ -48,7 +52,7 @@ import { TitleStrategy } from '@angular/router';
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
 const icons: IconDefinition[] = [
-  LockOutline, UserOutline
+  LockOutline, UserOutline, InboxOutline, DownloadOutline
 ];
 
 @NgModule({
@@ -79,6 +83,10 @@ const icons: IconDefinition[] = [
     NzAvatarModule,
     NzTableModule,
     NzPaginationModule,
+    NzUploadModule,
+    NzSpaceModule,
+    FormsModule,
+    NzDividerModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),
