@@ -30,6 +30,9 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+
 
 
 import { registerLocaleData } from '@angular/common';
@@ -89,6 +92,8 @@ const icons: IconDefinition[] = [
     FormsModule,
     NzDividerModule,
     NzToolTipModule,
+    NzDescriptionsModule,
+    NzBadgeModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),
