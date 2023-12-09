@@ -19,7 +19,11 @@
         </nz-header>
         <nz-content>
             <nz-breadcrumb>
-                <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+                <nz-breadcrumb-item *ngFor="let bc of breadcrumbs.breadcrumbList; index as i;">
+                    <a [routerLink]="breadcrumbs.urlFromSegments(breadcrumbs.breadcrumbList, i)">
+                        {{ bc.name| titlecase }}
+                    </a>
+                </nz-breadcrumb-item>
             </nz-breadcrumb>
             <div class="inner-content">
                 <router-outlet></router-outlet>

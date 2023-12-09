@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from './login/login.service';
 import { User } from './login/user.model';
 import { Router } from '@angular/router';
+import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,9 @@ export class AppComponent {
   title = 'selenium-monitoring';
   token = null;
   
-  constructor(private apiService: ApiModule, private loginService: LoginService, private router: Router) {
+  constructor(private apiService: ApiModule, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
   }
+  
   get getUser() {
     return this.loginService.getUser
   }
