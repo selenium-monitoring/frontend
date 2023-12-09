@@ -14,6 +14,11 @@ export class Site {
         return `/sites/${this.id}/`
     }
     get getReadableCron() {
-        return cronstrue.toString(this.cron, {locale: 'en'})
+        try {
+            return cronstrue.toString(this.cron, {locale: 'en'})
+        }
+        catch {
+            return 'Invalid Cron timing'
+        }
     }
 }
