@@ -32,7 +32,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
-
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -47,7 +47,7 @@ const ngZorroConfig: NzConfig = {
 };
 
 import { 
-  LockOutline, UserOutline, InboxOutline, DownloadOutline
+  LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline
  } from '@ant-design/icons-angular/icons';
 import { UploaderComponent } from './uploader/uploader.component';
 import { LoginService } from './login/login.service';
@@ -56,7 +56,7 @@ import { TitleStrategy } from '@angular/router';
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
 const icons: IconDefinition[] = [
-  LockOutline, UserOutline, InboxOutline, DownloadOutline
+  LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline
 ];
 
 @NgModule({
@@ -94,6 +94,7 @@ const icons: IconDefinition[] = [
     NzToolTipModule,
     NzDescriptionsModule,
     NzBadgeModule,
+    NzTabsModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),

@@ -3,6 +3,7 @@ import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
 import cronstrue from 'cronstrue/i18n';
+import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-uploader',
@@ -10,6 +11,14 @@ import cronstrue from 'cronstrue/i18n';
   styleUrls: ['./uploader.component.scss']
 })
 export class UploaderComponent {
+  validateForm: FormGroup<{
+    cron: FormControl<string>,
+    repository: FormControl<string>,
+    image: FormControl<string>,
+    tag: FormControl<string>,
+    retries: FormControl<number>,
+  }>
+
   isUploading: boolean = false
   fileList: NzUploadFile[] = [];
   cronValue: string = "* * * * *"
@@ -20,9 +29,15 @@ export class UploaderComponent {
   cronMonth: string = "*"
   cronWeekDay: string = "*"
 
-  constructor(private msg: NzMessageService){
+  constructor(private msg: NzMessageService, private fb: NonNullableFormBuilder){
     this.fileList = []
-    console.log(this)
+    this.validateForm = this.fb.group({
+      cron: ['', [this.validateCron]],
+      repository: ['', [Validators.required, Validators.minLength(1)]],
+      image: ['', [Validators.required, Validators.minLength(1)]],
+      tag: ['latest'],
+      retries: [0, Validators.min(0)],
+    })
   }
 
   preprocessUpload = ({uid, name}: NzUploadFile) => {
@@ -50,13 +65,32 @@ export class UploaderComponent {
         break
     }
   }
-  handleUpload() {
+
+  submitForm() {
+    if (!this.validateForm.valid) {
+      this.msg.error('Invalid Form')
+      Object.values(this.validateForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty()
+          control.updateValueAndValidity({onlySelf: true})
+        }
+      })
+      return
+    }
     this.fileList = this.fileList.map((file:NzUploadFile) => {
       file.status = 'success'
       return file
     })
     this.msg.success('Successfully uploaded')
     console.log(this.fileList)
+  }
+  validateCron(control: AbstractControl): ValidationErrors | null {
+    console.log(control)
+    try {
+      cronstrue.toString(control.value)
+      return null
+    }
+    catch {return {'validateCron': 'Invalid Cron value'}}
   }
   get getCron() {
     let cron = this.cronValue.split(' ')
