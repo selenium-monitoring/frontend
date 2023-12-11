@@ -51,9 +51,23 @@ export class UploaderComponent {
   }
 
   preprocessUpload = (file: NzUploadFile) => {
-    file.status= 'uploading'
-    this.fileList.push(file)
-    this.fileList = this.fileList.slice()
+    // @ts-ignore
+    // argument 'file' is actually a File object with added NzUploadFile attributes
+    // https://github.com/NG-ZORRO/ng-zorro-antd/issues/4744
+    (file as File).text().then(value => {
+      try {
+        const data = JSON.parse(value)
+      }
+      catch {
+        this.msg.error(`Error parsing file: ${file.name}`)
+        return
+      }
+      file.status = 'uploading'
+      this.fileList.push(file)
+      this.fileList = this.fileList.slice()
+      this.msg.success('File seems valid')
+    })
+    console.log(file)
     return false
   }
   handleChange({ file, fileList }: NzUploadChangeParam) {
