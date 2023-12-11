@@ -5,19 +5,28 @@ import { NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
 import cronstrue from 'cronstrue/i18n';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
+type CronFormType = {
+  cron: FormControl<string>,
+  repository: FormControl<string>,
+  image: FormControl<string>,
+  tag: FormControl<string>,
+  retries: FormControl<number>,
+}
+type CronFormEventType = {
+  cron: string,
+  repository: string,
+  iamge: string,
+  tag: string,
+  retries: number,
+}
+
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
   styleUrls: ['./uploader.component.scss']
 })
 export class UploaderComponent {
-  validateForm: FormGroup<{
-    cron: FormControl<string>,
-    repository: FormControl<string>,
-    image: FormControl<string>,
-    tag: FormControl<string>,
-    retries: FormControl<number>,
-  }>
+  validateForm: FormGroup<CronFormType>
 
   isUploading: boolean = false
   fileList: NzUploadFile[] = [];
@@ -32,21 +41,22 @@ export class UploaderComponent {
   constructor(private msg: NzMessageService, private fb: NonNullableFormBuilder){
     this.fileList = []
     this.validateForm = this.fb.group({
-      cron: ['', [this.validateCron]],
+      cron: [this.cronValue, [this.validateCron]],
       repository: ['', [Validators.required, Validators.minLength(1)]],
       image: ['', [Validators.required, Validators.minLength(1)]],
       tag: ['latest'],
       retries: [0, Validators.min(0)],
     })
+    this.validateForm.valueChanges.subscribe((data:Partial<CronFormEventType>) => this.updateCron(data));
   }
 
-  preprocessUpload = ({uid, name}: NzUploadFile) => {
-    this.fileList.push({uid, name, status: 'uploading'})
+  preprocessUpload = (file: NzUploadFile) => {
+    file.status= 'uploading'
+    this.fileList.push(file)
     this.fileList = this.fileList.slice()
     return false
   }
   handleChange({ file, fileList }: NzUploadChangeParam) {
-    console.log(`status: ${file.status}`)
     switch (file.status) {
       case 'uploading':
         this.msg.info('still uploading')
@@ -85,7 +95,6 @@ export class UploaderComponent {
     console.log(this.fileList)
   }
   validateCron(control: AbstractControl): ValidationErrors | null {
-    console.log(control)
     try {
       cronstrue.toString(control.value)
       return null
@@ -93,20 +102,23 @@ export class UploaderComponent {
     catch {return {'validateCron': 'Invalid Cron value'}}
   }
   get getCron() {
-    let cron = this.cronValue.split(' ')
-    if (cron.length != 5) return 'Invalid'
+    const cronValue = this.validateForm.value.cron
+    if (cronValue?.split(' ').length != 5) return 'Invalid'
     try {
-      return cronstrue.toString(this.cronValue)
+      return cronstrue.toString(cronValue)
     }
     catch {
       return 'Invalid'
     }
   }
-  updateValues(event:any) {
-    this.cronValue = `${this.cronMin} ${this.cronHour} ${this.cronDay} ${this.cronMonth} ${this.cronWeekDay}`
+  updateValues() {
+    const cronValue = `${this.cronMin} ${this.cronHour} ${this.cronDay} ${this.cronMonth} ${this.cronWeekDay}`
+    this.validateForm.patchValue({cron: cronValue})
   }
-  updateCron(event:any) {
-    let values = this.cronValue.split(' ')
+  
+  updateCron(event: Partial<CronFormEventType>):void {
+    if (event.cron === undefined) return
+    let values = event.cron.split(' ')
     this.cronWeekDay = this.cronMonth = this.cronDay = this.cronHour = this.cronMin = ''
     switch (values.length)
     {

@@ -4,6 +4,7 @@
     (nzChange)="handleChange($event)"
     [nzFileList]="fileList"
     [nzBeforeUpload]="preprocessUpload"
+    nzAction="localhost:4200"
 >
     <p class="ant-upload-drag-icon">
         <span nz-icon nzType="inbox"></span>
@@ -21,23 +22,15 @@
         <nz-form-label [nzSpan]="4" nzFor="cron" nzRequired>Cron timing</nz-form-label>
         <nz-form-control [nzExtra]="getCron">
             <nz-input-group>
-                <input [(ngModel)]="cronValue" (ngModelChange)="updateCron($event)" nz-input name="cron" type="text" id="cron" formControlName="cron">
+                <input nz-input name="cron" type="text" id="cron" formControlName="cron">
             </nz-input-group>
-        </nz-form-control><button
-        nz-button
-        [nzType]="'primary'"
-        [nzLoading]="isUploading"
-        [disabled]="fileList.length === 0"
-        style="margin-top: 16px"
-        >
-        {{ isUploading ? 'Uploading' : 'Start Upload' }}
-    </button>
+        </nz-form-control>
     </nz-form-item>
     <button
         nz-button
         [nzType]="'primary'"
         [nzLoading]="isUploading"
-        [disabled]="fileList.length === 1"
+        [disabled]="fileList.length === 0"
         style="margin-top: 16px"
         >
         {{ isUploading ? 'Uploading' : 'Save and Upload' }}
@@ -81,31 +74,31 @@
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="cron-min">Cron minute</nz-form-label>
                 <nz-form-control [nzSpan]="4">
-                    <input [(ngModel)]="cronMin" (ngModelChange)="updateValues($event)" nz-input name="cron-min" type="text" id="cron-min" [ngModelOptions]="{standalone: true}">
+                    <input [(ngModel)]="cronMin" (ngModelChange)="updateValues()" nz-input name="cron-min" type="text" id="cron-min" [ngModelOptions]="{standalone: true}">
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="cron-hour">Cron hour</nz-form-label>
                 <nz-form-control [nzSpan]="4">
-                    <input [(ngModel)]="cronHour" (ngModelChange)="updateValues($event)" nz-input name="cron-hour" type="text" id="cron-hour" [ngModelOptions]="{standalone: true}">
+                    <input [(ngModel)]="cronHour" (ngModelChange)="updateValues()" nz-input name="cron-hour" type="text" id="cron-hour" [ngModelOptions]="{standalone: true}">
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="cron-day">Cron day</nz-form-label>
                 <nz-form-control [nzSpan]="4">
-                    <input [(ngModel)]="cronDay" (ngModelChange)="updateValues($event)" nz-input name="cron-day" type="text" id="cron-day" [ngModelOptions]="{standalone: true}">
+                    <input [(ngModel)]="cronDay" (ngModelChange)="updateValues()" nz-input name="cron-day" type="text" id="cron-day" [ngModelOptions]="{standalone: true}">
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="cron-month">Cron month</nz-form-label>
                 <nz-form-control [nzSpan]="4">
-                    <input [(ngModel)]="cronMonth" (ngModelChange)="updateValues($event)" nz-input name="cron-month" type="text" id="cron-month" [ngModelOptions]="{standalone: true}">
+                    <input [(ngModel)]="cronMonth" (ngModelChange)="updateValues()" nz-input name="cron-month" type="text" id="cron-month" [ngModelOptions]="{standalone: true}">
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="cron-day">Cron weekday</nz-form-label>
                 <nz-form-control [nzSpan]="4">
-                    <input [(ngModel)]="cronWeekDay" (ngModelChange)="updateValues($event)" nz-input name="cron-weekday" type="text" id="cron-weekday" [ngModelOptions]="{standalone: true}">
+                    <input [(ngModel)]="cronWeekDay" (ngModelChange)="updateValues()" nz-input name="cron-weekday" type="text" id="cron-weekday" [ngModelOptions]="{standalone: true}">
                 </nz-form-control>
             </nz-form-item >
         </nz-tab>
