@@ -1,18 +1,37 @@
 <nz-upload
-    nzType="drag"
+    [nzType]="'drag'"
     [nzMultiple]="false"
     (nzChange)="handleChange($event)"
-    [nzFileList]="fileList"
+    [nzFileList]="file ? [file] : []"
+    nzFileType="side"
     [nzBeforeUpload]="preprocessUpload"
-    nzAction="localhost:4200"
+    [nzDisabled]="file !== undefined"
 >
-    <p class="ant-upload-drag-icon">
-        <span nz-icon nzType="inbox"></span>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
-    <p class="ant-upload-hint">
-        Support for a single or bulk upload.
-    </p>
+    <div *ngIf="file === undefined">
+        <p class="ant-upload-drag-icon">
+            <span nz-icon nzType="inbox"></span>
+        </p>
+        <p class="ant-upload-text">Click or drag file to this area to upload</p>
+        <p class="ant-upload-hint">
+            Support for a single or bulk upload.
+        </p>
+    </div>
+    <div *ngIf="file !== undefined && fileInfo">
+        <nz-descriptions>
+            <nz-descriptions-item nzTitle="Name">{{ fileInfo.name }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Version">{{ fileInfo.version }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="URL">{{ fileInfo.url }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Suites">{{ fileInfo.suites.length }} pc(s)</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Tests">{{ fileInfo.tests.length }} pc(s)</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Plugins">{{ fileInfo.plugins.length }} pc(s)</nz-descriptions-item>
+
+            <ul>
+                <li *ngFor="let url of fileInfo.urls">
+                    <nz-descriptions-item nzTitle="URLs">{{ url }}</nz-descriptions-item>
+                </li>
+            </ul>
+        </nz-descriptions>
+    </div>
 </nz-upload>
 <nz-divider nzType="horizontal"></nz-divider>
 
@@ -30,7 +49,7 @@
         nz-button
         [nzType]="'primary'"
         [nzLoading]="isUploading"
-        [disabled]="fileList.length === 0"
+        [disabled]="file === undefined"
         style="margin-top: 16px"
         >
         {{ isUploading ? 'Uploading' : 'Save and Upload' }}
@@ -41,6 +60,12 @@
                 <span nz-icon nzType="form" nzTheme="outline"></span>
                 Test Details
             </ng-template>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="name" nzRequired>Test Name</nz-form-label>
+                <nz-form-control nzErrorTip="Name of the test, must be unique">
+                    <input nz-input name="name" formControlName="name" type="text" id="name">
+                </nz-form-control>
+            </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="4" nzFor="repository" nzRequired>Repository</nz-form-label>
                 <nz-form-control nzErrorTip="Please add a valid repository to pull the image from, fro example: quay.io, ghcr.io, etc">

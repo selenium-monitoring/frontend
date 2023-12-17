@@ -5,7 +5,11 @@ import { NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
 import cronstrue from 'cronstrue/i18n';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
+import { SideFile, SideFileType } from './side.model';
+import { isRight, isLeft } from 'fp-ts/Either'
+
 type CronFormType = {
+  name: FormControl<string>,
   cron: FormControl<string>,
   repository: FormControl<string>,
   image: FormControl<string>,
@@ -13,6 +17,7 @@ type CronFormType = {
   retries: FormControl<number>,
 }
 type CronFormEventType = {
+  name: string,
   cron: string,
   repository: string,
   iamge: string,
@@ -29,7 +34,8 @@ export class UploaderComponent {
   validateForm: FormGroup<CronFormType>
 
   isUploading: boolean = false
-  fileList: NzUploadFile[] = [];
+  file?: NzUploadFile
+  fileInfo?: SideFileType
   cronValue: string = "* * * * *"
 
   cronMin: string = "*"
@@ -39,8 +45,8 @@ export class UploaderComponent {
   cronWeekDay: string = "*"
 
   constructor(private msg: NzMessageService, private fb: NonNullableFormBuilder){
-    this.fileList = []
     this.validateForm = this.fb.group({
+      name: ['', [Validators.minLength(3), Validators.required]],
       cron: [this.cronValue, [this.validateCron]],
       repository: ['', [Validators.required, Validators.minLength(1)]],
       image: ['', [Validators.required, Validators.minLength(1)]],
@@ -55,19 +61,27 @@ export class UploaderComponent {
     // argument 'file' is actually a File object with added NzUploadFile attributes
     // https://github.com/NG-ZORRO/ng-zorro-antd/issues/4744
     (file as File).text().then(value => {
+      let data: SideFileType
       try {
-        const data = JSON.parse(value)
+        data = JSON.parse(value)
       }
-      catch {
+      catch(ex) {
         this.msg.error(`Error parsing file: ${file.name}`)
         return
       }
-      file.status = 'uploading'
-      this.fileList.push(file)
-      this.fileList = this.fileList.slice()
-      this.msg.success('File seems valid')
+      if(isRight( SideFile.decode(data) )) {
+        // file looks like a .side file
+        file.status = 'success'
+        this.fileInfo = data
+        
+        this.file = file
+        this.msg.success('File seems valid')
+      }
+      else {
+        this.file = undefined
+        this.msg.error('File does not look like a .side file')
+      }
     })
-    console.log(file)
     return false
   }
   handleChange({ file, fileList }: NzUploadChangeParam) {
@@ -85,13 +99,16 @@ export class UploaderComponent {
         this.msg.success('done2?')
         break
       case 'removed':
+        this.file = undefined
+        this.fileInfo = undefined
         this.msg.warning('removed')
         break
     }
+    
   }
 
   submitForm() {
-    if (!this.validateForm.valid) {
+    if (!this.validateForm.valid || this.file === undefined) {
       this.msg.error('Invalid Form')
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -101,12 +118,8 @@ export class UploaderComponent {
       })
       return
     }
-    this.fileList = this.fileList.map((file:NzUploadFile) => {
-      file.status = 'success'
-      return file
-    })
     this.msg.success('Successfully uploaded')
-    console.log(this.fileList)
+    console.log(this.file)
   }
   validateCron(control: AbstractControl): ValidationErrors | null {
     try {
