@@ -3,7 +3,6 @@
     [nzMultiple]="false"
     (nzChange)="handleChange($event)"
     [nzFileList]="file ? [file] : []"
-    nzFileType="side"
     [nzBeforeUpload]="preprocessUpload"
     [nzDisabled]="file !== undefined"
 >
