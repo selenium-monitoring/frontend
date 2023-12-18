@@ -13,14 +13,10 @@ import { sites } from '../site-list/mock-sites';
 })
 export class SiteComponent {
   site?:Site
+  siteName:string
   constructor(private router: ActivatedRoute) {
-    
-    //this.site = sites[router.snapshot.params['name']]
-    const site = sites.find((data) => {
-      const name = router.snapshot.params['name']
-      console.log(name, data.name)
-      return data.name == name
-    })
+    this.siteName = router.snapshot.params['name']
+    const site = sites.find((data) => {return data.name == this.siteName})
     this.site =  site
   }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="site!==undefined">
+<div *ngIf="site!==undefined; else elseBlock">
     <ng-template #totalTemplate let-range="range" let-total>
         {{range[0]}}-{{range[1]}} of {{total}}
     </ng-template>
@@ -15,5 +15,9 @@
     </nz-descriptions>
 </div>
 <ng-template #elseBlock>
-    Site not found
+    <nz-row nzJustify="center">
+        <nz-alert nzType="error" nzMessage="Site not found" nzDescription="The selenium Test with the name '{{siteName}}'' was not found." nzShowIcon>
+            <span></span>
+        </nz-alert>
+    </nz-row>
 </ng-template>
