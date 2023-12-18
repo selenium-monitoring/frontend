@@ -4,6 +4,7 @@
 <nz-table #siteTable [nzData]="sites" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
     <thead>
         <tr>
+            <th>Name</th>
             <th>URL</th>
             <th>Cron</th>
             <th nzSortOrder="null" [nzSortFn]="sortByTestCount" [(nzSortOrder)]="sortOrder">Test Count</th>
@@ -12,7 +13,8 @@
     </thead>
     <tbody>
         <tr *ngFor="let site of siteTable.data">
-            <td><a [routerLink]="site.getUrl">{{ site.url }}</a></td>
+            <td><a [routerLink]="[site.name]">{{ site.name }}</a></td>
+            <td>{{ site.url }}</td>
             <td><span nz-tooltip [nzTooltipTitle]="site.getReadableCron">
                 {{ site.cron }}
             </span></td>

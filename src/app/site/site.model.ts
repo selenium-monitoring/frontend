@@ -10,9 +10,6 @@ export class Site {
         public testCount: number,
         public lastResult: 'Success'|'Error'|'Running',
     ) {}
-    get getUrl() {
-        return `/sites/${this.name}/`
-    }
     get getReadableCron() {
         try {
             return cronstrue.toString(this.cron, {locale: 'en'})
