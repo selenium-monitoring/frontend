@@ -5,7 +5,6 @@
     <nz-descriptions nzTitle="Selenium Monitor Item Info" nzBordered>
         <nz-descriptions-item nzTitle="URL">{{ site.url }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Created">{{ site.dateAdded }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Tests Ran">{{ site.testCount }}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Last Result">
             <nz-badge [nzStatus]="site.lastResultAsStatus" [nzText]="site.lastResult"></nz-badge>
         </nz-descriptions-item>

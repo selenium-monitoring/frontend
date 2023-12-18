@@ -1,13 +1,17 @@
 <ng-template #totalTemplate let-range="range" let-total>
     {{range[0]}}-{{range[1]}} of {{total}}
 </ng-template>
-<nz-table #siteTable [nzData]="sites" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
+<nz-table #siteTable [nzData]="shownSites" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
     <thead>
         <tr>
-            <th>Name</th>
+            <th nzSortOrder="null" [nzSortFn]="sortByName" [(nzSortOrder)]="sortOrder" nzCustomFilter>
+                Name
+                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length>0" [nzDropdownMenu]="nameFilter">
+                    <span nz-icon nzType="search"></span>
+                </nz-filter-trigger>
+            </th>
             <th>URL</th>
             <th>Cron</th>
-            <th nzSortOrder="null" [nzSortFn]="sortByTestCount" [(nzSortOrder)]="sortOrder">Test Count</th>
             <th [nzFilters]="resultFilters" [nzFilterFn]="resultFilterFunc">Last Result</th>
         </tr>
     </thead>
@@ -18,8 +22,16 @@
             <td><span nz-tooltip [nzTooltipTitle]="site.getReadableCron">
                 {{ site.cron }}
             </span></td>
-            <td>{{ site.testCount }}</td>
             <td><nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag></td>
         </tr>
     </tbody>
 </nz-table>
+<nz-dropdown-menu #nameFilter="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>

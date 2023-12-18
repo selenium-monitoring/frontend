@@ -7,7 +7,6 @@ export class Site {
         public url: string,
         public dateAdded: Date,
         public cron: string,
-        public testCount: number,
         public lastResult: 'Success'|'Error'|'Running',
     ) {}
     get getReadableCron() {

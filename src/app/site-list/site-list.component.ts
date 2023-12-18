@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Site } from '../site/site.model';
-import { NzTableSortOrder } from 'ng-zorro-antd/table';
+import { NzTableSortOrder, NzTableSortFn } from 'ng-zorro-antd/table';
 import { sites } from './mock-sites';
 
 @Component({
@@ -10,9 +10,12 @@ import { sites } from './mock-sites';
   styleUrls: ['./site-list.component.scss']
 })
 export class SiteListComponent {
-  sites: Site[];
+  allSites: Site[];
+  shownSites: Site[];
+  visible=false
+  searchValue = ''
   sortOrder: NzTableSortOrder = null;
-  sortByTestCount = (a:Site,b:Site) => a.testCount-b.testCount;
+  sortByName:NzTableSortFn<Site> = (a:Site,b:Site) => a.name.localeCompare(b.name, undefined, {numeric:true});
   resultFilterFunc = (list: string[], item: Site) => list.some(name => item.lastResult === name)
   resultFilters = [
     { text: "Success", value: "Success"},
@@ -21,6 +24,16 @@ export class SiteListComponent {
   ]
 
   constructor(private router: Router) {
-    this.sites = sites
+    this.allSites = sites
+    this.shownSites = [...this.allSites]
+  }
+
+  search() {
+    this.visible = false
+    this.shownSites = this.allSites.filter((item: Site) => item.name.indexOf(this.searchValue) !== -1)
+  }
+  reset() {
+    this.searchValue = ''
+    this.search()
   }
 }
