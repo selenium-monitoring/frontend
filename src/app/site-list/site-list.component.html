@@ -17,7 +17,7 @@
                 {{ site.cron }}
             </span></td>
             <td>{{ site.testCount }}</td>
-            <td>{{ site.lastResult }}</td>
+            <td><nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag></td>
         </tr>
     </tbody>
 </nz-table>

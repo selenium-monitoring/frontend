@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'sites', title: 'Websites',
       children: [
         { path: '', title: 'Dashboard', component: SiteListComponent },
-        { path: ':id', title: 'Website Detail', component: SiteComponent},
+        { path: ':name', title: 'Website Detail', component: SiteComponent},
       ]
     },
     { path: 'upload', title: 'Upload Test', component: UploaderComponent },

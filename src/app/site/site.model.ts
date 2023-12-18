@@ -3,7 +3,7 @@ import cronstrue from 'cronstrue/i18n';
 
 export class Site {
     constructor(
-        private id:number,
+        public name:string,
         public url: string,
         public dateAdded: Date,
         public cron: string,
@@ -11,7 +11,7 @@ export class Site {
         public lastResult: 'Success'|'Error'|'Running',
     ) {}
     get getUrl() {
-        return `/sites/${this.id}/`
+        return `/sites/${this.name}/`
     }
     get getReadableCron() {
         try {
@@ -20,5 +20,18 @@ export class Site {
         catch {
             return 'Invalid Cron timing'
         }
+    }
+
+    get lastResultAsStatus() {
+        switch(this.lastResult) {
+            case "Error":
+              return "error"
+            case "Running":
+              return "processing"
+            case "Success":
+              return "success"
+            default:
+              return 'warning'
+          }
     }
 }

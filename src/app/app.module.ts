@@ -33,6 +33,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -95,6 +96,7 @@ const icons: IconDefinition[] = [
     NzDescriptionsModule,
     NzBadgeModule,
     NzTabsModule,
+    NzTagModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),
