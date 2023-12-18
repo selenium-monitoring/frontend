@@ -1,29 +1,12 @@
 import { Component } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
 import cronstrue from 'cronstrue/i18n';
-import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 
 import { SideFile, SideFileType } from './side.model';
-import { isRight, isLeft } from 'fp-ts/Either'
-
-type CronFormType = {
-  name: FormControl<string>,
-  cron: FormControl<string>,
-  repository: FormControl<string>,
-  image: FormControl<string>,
-  tag: FormControl<string>,
-  retries: FormControl<number>,
-}
-type CronFormEventType = {
-  name: string,
-  cron: string,
-  repository: string,
-  iamge: string,
-  tag: string,
-  retries: number,
-}
+import { isRight } from 'fp-ts/Either'
+import { CronFormEventType, CronFormType } from './cronform.model';
 
 @Component({
   selector: 'app-uploader',
@@ -73,7 +56,7 @@ export class UploaderComponent {
         // file looks like a .side file
         file.status = 'success'
         this.fileInfo = data
-        
+
         this.file = file
         this.msg.success('File seems valid')
       }
@@ -119,7 +102,6 @@ export class UploaderComponent {
       return
     }
     this.msg.success('Successfully uploaded')
-    console.log(this.file)
   }
   validateCron(control: AbstractControl): ValidationErrors | null {
     try {
