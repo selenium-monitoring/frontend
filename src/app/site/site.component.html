@@ -11,6 +11,7 @@
         <nz-descriptions-item nzTitle="Cron">
             <span nz-tooltip [nzTooltipTitle]="site.getReadableCron">{{ site.cron }}</span>
         </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Next Run">{{ site.getNextRun || 'Invalid' }}</nz-descriptions-item>
     </nz-descriptions>
 </div>
 <ng-template #elseBlock>

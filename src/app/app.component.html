@@ -1,4 +1,4 @@
-<div *ngIf="getUser?.isLoggedIn">
+<div *ngIf="getUser?.isLoggedIn; else anonymousTemplate">
     <nz-layout class="layout">
         <nz-header>
             <!-- <div class="logo"></div> -->
@@ -32,4 +32,4 @@
         <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
     </nz-layout>
 </div>
-<div *ngIf="!getUser"><router-outlet></router-outlet></div>
+<ng-template #anonymousTemplate><router-outlet></router-outlet></ng-template>

@@ -21,6 +21,7 @@ export class SiteListComponent {
     { text: "Success", value: "Success"},
     { text: "Error", value: "Error"},
     { text: "Running", value: "Running"},
+    { text: "Unknown", value: "Unknown"},
   ]
 
   constructor(private router: Router) {

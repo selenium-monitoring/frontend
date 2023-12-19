@@ -12,6 +12,8 @@
             </th>
             <th>URL</th>
             <th>Cron</th>
+            <th>Next Run</th>
+            <th>Created at</th>
             <th [nzFilters]="resultFilters" [nzFilterFn]="resultFilterFunc">Last Result</th>
         </tr>
     </thead>
@@ -22,6 +24,8 @@
             <td><span nz-tooltip [nzTooltipTitle]="site.getReadableCron">
                 {{ site.cron }}
             </span></td>
+            <td>{{ (site.getNextRun | date:'medium') || 'Invalid' }}</td>
+            <td>{{ site.dateAdded | date:'medium' }}</td>
             <td><nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag></td>
         </tr>
     </tbody>
