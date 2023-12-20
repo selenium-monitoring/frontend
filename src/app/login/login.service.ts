@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, isDevMode } from "@angular/core";
 import { User } from "./user.model";
 
 @Injectable({ providedIn: 'root'})
@@ -6,7 +6,7 @@ export class LoginService {
     private user?: User;
   
     constructor() {
-      this.user = new User('test_user', '', new Date())
+      if(isDevMode()) this.user = new User('test_user', '', new Date())
     }
   
     get getUser() {
