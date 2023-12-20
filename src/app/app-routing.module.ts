@@ -7,23 +7,25 @@ import { UploaderComponent } from './uploader/uploader.component';
 import { Title } from '@angular/platform-browser';
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
+import { loggedInGuard } from './logged-in.guard';
 
 const routes: Routes = [
   { path: 'login', title: 'Login', component: LoginComponent },
   {
     path: '', title: 'Dashboard',
-    canActivate: [],
+    canMatch: [loggedInGuard],
     children: [
       { path: '', title: 'Dashboard', component: MainComponent },
       { path: 'sites', title: 'Websites',
-      children: [
-        { path: '', title: 'Dashboard', component: SiteListComponent },
-        { path: ':name', title: 'Website Detail', component: SiteComponent},
-      ]
-    },
-    { path: 'upload', title: 'Upload Test', component: UploaderComponent },
-  ]
-},
+        children: [
+          { path: '', title: 'Dashboard', component: SiteListComponent },
+          { path: ':name', title: 'Website Detail', component: SiteComponent},
+        ]
+      },
+      { path: 'upload', title: 'Upload Test', component: UploaderComponent },
+    ]
+  },
+  { path: '**', title: 'Redirecting', redirectTo: '/login', pathMatch: 'prefix'},
 ];
 
 @NgModule({
