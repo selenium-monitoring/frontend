@@ -11,14 +11,15 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   pageName = 'Login'
+  remember = false
 
   validateForm: FormGroup<{
     userName: FormControl<string>;
     password: FormControl<string>;
     remember: FormControl<boolean>;
   }> = this.fb.group({
-    userName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+    userName: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
     remember: [true, []]
   });
 
