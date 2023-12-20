@@ -1,22 +1,15 @@
-nz-avatar {
-    margin-top: 16px;
-    margin-right: 16px;
-    float: right;
-}
-.userbutton {
-    float: right;
-    margin-bottom: 0;
-}
-.layout {
-    min-height: 100vh;
-}
-
-[nz-menu] {
-    line-height: 64px;
+.trigger {
+    width: 64px;
+    height: 64px;
+    font-size: 16px;
 }
 
 nz-breadcrumb {
-    margin: 16px 0;
+    margin: 16px;
+}
+
+nz-header, nz-sider {
+    background-color: #fff;
 }
 
 nz-content {

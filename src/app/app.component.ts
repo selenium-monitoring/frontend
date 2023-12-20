@@ -14,6 +14,7 @@ import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
 export class AppComponent {
   title = 'selenium-monitoring';
   token = null;
+  isCollapsed = true
   
   constructor(private apiService: ApiModule, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
   }

@@ -1,35 +1,71 @@
-<div *ngIf="getUser?.isLoggedIn; else anonymousTemplate">
-    <nz-layout class="layout">
-        <nz-header>
-            <!-- <div class="logo"></div> -->
-            <ul nz-menu nzTheme="dark" nzMode="horizontal">
-                <li nz-menu-item><a routerLink="/login">Login</a></li>
-                <li nz-menu-item><a routerLink="/upload">Upload</a></li>
-                <li nz-menu-item><a routerLink="/sites">Sites</a></li>
-                <div nz-dropdown nz-dropdown [nzDropdownMenu]="menu" class="userbutton">
-                    <p class="userbutton">{{ getUser?.username }}</p>
-                    <nz-avatar [nzShape]="'circle'" [nzSize]="32" [nzIcon]="'user'"></nz-avatar>
-                </div>
-                <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu nzSelectable>
-                    <li nz-menu-item><p (click)="logoutUser()">Logout</p></li>
-                </ul>
-                </nz-dropdown-menu>
+<div *ngIf="getUser && getUser.isLoggedIn; else anonymousTemplate">
+    <nz-layout style="min-height: 100vh;">
+        <nz-sider nzCollapsible [nzCollapsedWidth]=64 [nzWidth]=200 [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+            <div nz-row nzJustify="center" nzAlign="middle" (click)="isCollapsed = !isCollapsed"
+                nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+                class="trigger"
+            ></div>
+            <ul nz-menu nzTheme="light" nzMode="inline" nz-row>
+                <li nz-menu-item>
+                    <span nz-icon nzType="dashboard"></span>
+                    <span>Dashboard</span>
+                </li>
+                <li nz-menu-item>
+                    <span nz-icon nzType="bar-chart"></span>
+                    <span>Statistics</span>
+                </li>
+                <li nz-menu-item>
+                    <span nz-icon nzType="calendar"></span>
+                    <span>Calendar</span>
+                </li>
+                <li nz-submenu nzTitle="Profile" nzIcon="user">
+                    <ul>
+                        <li nz-menu-item>Tom</li>
+                        <li nz-menu-item>Bill</li>
+                        <li nz-menu-item>Alex</li>
+                    </ul>
+                </li>
+                <li nz-menu-item nzAlign="right">
+                    <span nz-icon nzType="setting"></span>
+                    <span>Settings</span>
+                </li>
             </ul>
-        </nz-header>
-        <nz-content>
-            <nz-breadcrumb>
-                <nz-breadcrumb-item *ngFor="let bc of breadcrumbs.breadcrumbList; index as i;">
-                    <a [routerLink]="breadcrumbs.urlFromSegments(breadcrumbs.breadcrumbList, i)">
-                        {{ bc.name| titlecase }}
-                    </a>
-                </nz-breadcrumb-item>
-            </nz-breadcrumb>
-            <div class="inner-content">
-                <router-outlet></router-outlet>
-            </div>
-        </nz-content>
-        <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+        </nz-sider>
+        <nz-layout>
+            <nz-header>
+                <!-- <div class="logo"></div> -->
+                <ul nz-menu nzTheme="light" nzMode="horizontal">
+                    <li nz-menu-item nzMatchRouter><a routerLink="/login">Login</a></li>
+                    <li nz-menu-item nzMatchRouter><a routerLink="/upload">Upload</a></li>
+                    <li nz-menu-item nzMatchRouter><a routerLink="/sites">Sites</a></li>
+                    <li nz-submenu [nzTitle]="getUser.username||'Unknown'" nzIcon="user" style="float: right;">
+                        <!-- <span class="userbutton">{{ getUser?.username }}</span>
+                            <nz-avatar [nzShape]="'circle'" [nzSize]="32" [nzIcon]="'user'"></nz-avatar> -->
+                            <ul>
+                                <li nz-menu-item><span (click)="logoutUser()">Logout</span></li>
+                            </ul>
+                        </li>
+                    <li nz-submenu style="float:right" nzIcon="global">
+                        <ul>
+                            <li nz-menu-item nzMatchRouter>English (UK)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nz-header>
+            <nz-content>
+                <nz-breadcrumb>
+                    <nz-breadcrumb-item *ngFor="let bc of breadcrumbs.breadcrumbList; index as i;">
+                        <a [routerLink]="breadcrumbs.urlFromSegments(breadcrumbs.breadcrumbList, i)">
+                            {{ bc.name| titlecase }}
+                        </a>
+                    </nz-breadcrumb-item>
+                </nz-breadcrumb>
+                <div class="inner-content">
+                    <router-outlet></router-outlet>
+                </div>
+            </nz-content>
+            <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+        </nz-layout>
     </nz-layout>
 </div>
 <ng-template #anonymousTemplate><router-outlet></router-outlet></ng-template>
