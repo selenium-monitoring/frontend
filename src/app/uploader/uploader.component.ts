@@ -93,6 +93,7 @@ export class UploaderComponent {
   submitForm() {
     if (!this.validateForm.valid || this.file === undefined) {
       this.msg.error('Invalid Form')
+      this.validateForm.markAsPristine()
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty()
