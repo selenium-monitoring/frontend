@@ -12,6 +12,7 @@ import {
   LockOutline, UserOutline
  } from '@ant-design/icons-angular/icons';
 import { Router } from '@angular/router';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline
 ];
@@ -34,6 +35,7 @@ describe('LoginComponent', () => {
         NzCheckboxModule,
         NzButtonModule,
         NzIconModule.forRoot(icons),
+        NzDividerModule,
       ],
     })
     .compileComponents();

@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { sites } from '../site-list/mock-sites';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-fdescribe('SiteComponent', () => {
+describe('SiteComponent', () => {
   let component: SiteComponent;
   let fixture: ComponentFixture<SiteComponent>;
   let route: ActivatedRoute
