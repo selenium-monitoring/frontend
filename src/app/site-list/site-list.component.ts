@@ -17,7 +17,6 @@ export class SiteListComponent {
   sortOrder: NzTableSortOrder = null;
   sortByName:NzTableSortFn<Site> = (a:Site,b:Site) => a.name.localeCompare(b.name, undefined, {numeric:true});
   resultFilterFunc = (list: string[], item: Site) => {
-    console.log(list)
     return list.some(name => item.lastResult === name)
   }
   resultFilters = [

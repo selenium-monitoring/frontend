@@ -12,18 +12,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Site } from '../site/site.model';
 
-describe('SiteListComponent', () => {
+fdescribe('SiteListComponent', () => {
   let component: SiteListComponent;
   let fixture: ComponentFixture<SiteListComponent>;
-  
-  const sites: Site[] = [
-    new Site('mocked 1', '', new Date(), '', 'Running'),
-    new Site('test 5', '', new Date(), '', 'Success'),
-    new Site('test 1', '', new Date(), '', 'Error'),
-    new Site('another 1', '', new Date(), '', 'Unknown'),
-    new Site('test 10', '', new Date(), '', 'Error'),
-    new Site('another 1', '', new Date(), '', 'Success'),
-  ]
+  const date = new Date()
+  let sites: Site[]
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +37,14 @@ describe('SiteListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    
+    sites = [
+      new Site('mocked 1', '', date, '', 'Running'),
+      new Site('test 5', '', date, '', 'Success'),
+      new Site('test 1', '', date, '', 'Error'),
+      new Site('another 1', '', date, '', 'Unknown'),
+      new Site('test 10', '', date, '', 'Error'),
+      new Site('another 1', '', date, '', 'Success'),
+    ]
   });
 
   it('should create', () => {
