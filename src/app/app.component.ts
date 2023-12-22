@@ -12,7 +12,7 @@ import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'selenium-monitoring';
+  title = 'Selenium Monitoring';
   token = null;
   isCollapsed = true
   

@@ -25,7 +25,7 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
+      // console.log('submit', this.validateForm.value);
       const {userName, password} = this.validateForm.value
       
       if (userName === undefined || password === undefined) {return;}
