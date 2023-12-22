@@ -13,9 +13,9 @@ import { sites } from '../site-list/mock-sites';
 })
 export class SiteComponent {
   site?:Site
-  siteName:string
-  constructor(private router: ActivatedRoute) {
-    this.siteName = router.snapshot.params['name']
+  siteName?:string
+  constructor(private route: ActivatedRoute) {
+    this.siteName = route.snapshot.paramMap.get('name') || ''
     const site = sites.find((data) => {return data.name == this.siteName})
     this.site =  site
   }
