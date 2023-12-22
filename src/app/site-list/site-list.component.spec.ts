@@ -12,7 +12,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Site } from '../site/site.model';
 
-fdescribe('SiteListComponent', () => {
+describe('SiteListComponent', () => {
   let component: SiteListComponent;
   let fixture: ComponentFixture<SiteListComponent>;
   const date = new Date()
