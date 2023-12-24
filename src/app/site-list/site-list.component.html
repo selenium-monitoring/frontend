@@ -1,7 +1,7 @@
 <ng-template #totalTemplate let-range="range" let-total>
     {{range[0]}}-{{range[1]}} of {{total}}
 </ng-template>
-<nz-table #siteTable [nzData]="shownSites" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
+<nz-table #siteTable [nzLoading]="allSites===undefined" [nzData]="shownSites||[]" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
     <thead>
         <tr>
             <th nzSortOrder="null" [nzSortFn]="sortByName" [(nzSortOrder)]="sortOrder" nzCustomFilter>

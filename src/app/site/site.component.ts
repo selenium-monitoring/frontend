@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Site } from './site.model';
 
-// mocked data until backend is implemented
-import { sites } from '../site-list/mock-sites';
+import { BackendService } from '../backend.service';
 
 
 @Component({
@@ -14,9 +13,15 @@ import { sites } from '../site-list/mock-sites';
 export class SiteComponent {
   site?:Site
   siteName?:string
-  constructor(private route: ActivatedRoute) {
+  isLoading = true
+
+
+  constructor(private route: ActivatedRoute, private backend: BackendService) {
     this.siteName = route.snapshot.paramMap.get('name') || ''
-    const site = sites.find((data) => {return data.name == this.siteName})
-    this.site =  site
+    backend.getSiteDetail(this.siteName).then((site) => {
+      this.isLoading = false
+      if (site === undefined) return
+      this.site =  site
+    })
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Site } from '../site/site.model';
 import { NzTableSortOrder, NzTableSortFn } from 'ng-zorro-antd/table';
 import { sites } from './mock-sites';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-site-list',
@@ -10,8 +11,8 @@ import { sites } from './mock-sites';
   styleUrls: ['./site-list.component.scss']
 })
 export class SiteListComponent {
-  allSites: Site[];
-  shownSites: Site[];
+  allSites?: Site[];
+  shownSites?: Site[];
   visible=false
   searchValue = ''
   sortOrder: NzTableSortOrder = null;
@@ -26,14 +27,16 @@ export class SiteListComponent {
     { text: "Unknown", value: "Unknown"},
   ]
 
-  constructor(private router: Router) {
-    this.allSites = sites
-    this.shownSites = [...this.allSites]
+  constructor(private router: Router, private backend: BackendService) {
+    backend.getSites().then((sites) => {
+      this.allSites = sites
+      this.shownSites = [...this.allSites]
+    })
   }
 
   search() {
     this.visible = false
-    this.shownSites = this.allSites.filter((item: Site) => item.name.indexOf(this.searchValue) !== -1)
+    this.shownSites = this.allSites?.filter((item: Site) => item.name.indexOf(this.searchValue) !== -1)
   }
   reset() {
     this.searchValue = ''

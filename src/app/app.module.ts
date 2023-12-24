@@ -59,6 +59,7 @@ import { appTitleStrategy } from './app-routing.module';
 import { TitleStrategy } from '@angular/router';
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline,
   MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, CalendarOutline, SettingOutline,
@@ -103,7 +104,7 @@ const icons: IconDefinition[] = [
     NzTabsModule,
     NzTagModule,
     NzAlertModule,
-    
+    NzSpinModule,
   ],
   providers: [
     provideNzConfig(ngZorroConfig),

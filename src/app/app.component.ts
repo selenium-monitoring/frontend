@@ -5,6 +5,8 @@ import { LoginService } from './login/login.service';
 import { User } from './login/user.model';
 import { Router } from '@angular/router';
 import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
+import { environment } from 'src/environments/environment';
+import { BackendService } from './backend.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,7 @@ export class AppComponent {
   token = null;
   isCollapsed = true
   
-  constructor(private apiService: ApiModule, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
+  constructor(private backendService: BackendService, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
   }
   
   get getUser() {

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { User } from './user.model';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   pageName = 'Login'
   remember = false
+  isInvalidLogin = false
+  loggingIn = false
 
   validateForm: FormGroup<{
     userName: FormControl<string>;
@@ -24,15 +27,23 @@ export class LoginComponent {
   });
 
   submitForm(): void {
+    this.loggingIn = true
     if (this.validateForm.valid) {
       // console.log('submit', this.validateForm.value);
       const {userName, password} = this.validateForm.value
       
       if (userName === undefined || password === undefined) {return;}
-      
-      this.service.login(userName, password)
-      this.router.navigate(['/'])
+        this.backend.tryLogin(userName, password).then((value) => {
+          console.log('trylogin', value)
+          if (value) {this.router.navigate(['/'])}
+          else {
+            this.isInvalidLogin = true
+            this.loggingIn = false
+          }
+        })
     } else {
+      this.isInvalidLogin = false
+      this.loggingIn = false
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -42,8 +53,11 @@ export class LoginComponent {
     }
   }
 
-  constructor(private fb: NonNullableFormBuilder, private service: LoginService, private router: Router) {
-    if (service.getUser?.isLoggedIn) {
+  constructor(private fb: NonNullableFormBuilder,
+              private login: LoginService,
+              private router: Router,
+              private backend: BackendService) {
+    if (login.getUser?.isLoggedIn) {
       router.navigateByUrl('')
     }
   }

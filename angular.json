@@ -59,7 +59,27 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "mocked": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mocked.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +92,9 @@
             },
             "development": {
               "browserTarget": "selenium-monitoring:build:development"
+            },
+            "mocked": {
+              "browserTarget": "selenium-monitoring:build:mocked"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +121,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "fileReplacements": [{
+              "replace": "src/environments/environment.ts",
+              "with": "src/environments/environment.mocked.ts"
+            }]
           }
         }
       }

@@ -13,8 +13,9 @@ export class LoginService {
       return this.user;
     }
 
-    login(username: string, password: string) {
-        this.user = new User(username, password, new Date())
+    async login(username: string, token: string, expires: Date) {
+      this.user = new User(username, token, expires)
+      return this.user
     }
     logout() {
       this.user = undefined;

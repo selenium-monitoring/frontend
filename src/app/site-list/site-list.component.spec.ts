@@ -11,6 +11,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Site } from '../site/site.model';
+import { ApiModule } from '../services';
 
 describe('SiteListComponent', () => {
   let component: SiteListComponent;
@@ -25,6 +26,7 @@ describe('SiteListComponent', () => {
         FormsModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        ApiModule,
         NzTableModule,
         NzDropDownModule,
         NzInputModule,

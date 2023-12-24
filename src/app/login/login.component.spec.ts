@@ -1,4 +1,4 @@
-import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { fakeAsync, ComponentFixture, TestBed, flush } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -13,6 +13,9 @@ import {
  } from '@ant-design/icons-angular/icons';
 import { Router } from '@angular/router';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { BackendService } from '../backend.service';
+import { ApiModule } from '../services';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline
 ];
@@ -30,12 +33,14 @@ describe('LoginComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        ApiModule,
         NzFormModule,
         NzInputModule,
         NzCheckboxModule,
         NzButtonModule,
         NzIconModule.forRoot(icons),
         NzDividerModule,
+        NzSpinModule,
       ],
     })
     .compileComponents();
@@ -60,8 +65,20 @@ describe('LoginComponent', () => {
       expect(component.validateForm.dirty).toBeTrue();
       
     });
+
+    it('should not log in', fakeAsync(() => {
+      component.validateForm.setValue({
+        userName: 'test',
+        password: 'different',
+        remember: false,
+      });
+      expect(component.validateForm.valid).toBeTrue();
+      component.submitForm();
+      flush()
+      expect(router.navigate).not.toHaveBeenCalledWith(['/'])
+    }))
     
-    it('should redirect', () => {
+    it('should redirect', fakeAsync(() => {
       component.validateForm.setValue({
         userName: 'test',
         password: 'test',
@@ -69,7 +86,8 @@ describe('LoginComponent', () => {
       });
       expect(component.validateForm.valid).toBeTrue();
       component.submitForm();
+      flush()
       expect(router.navigate).toHaveBeenCalledWith(['/'])
-    });
+    }));
   });
 });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
 
 import { SiteComponent } from './site.component';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { sites } from '../site-list/mock-sites';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { ApiModule } from '../services';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 describe('SiteComponent', () => {
   let component: SiteComponent;
@@ -22,11 +24,13 @@ describe('SiteComponent', () => {
       imports: [
         RouterTestingModule,
         BrowserAnimationsModule,
+        ApiModule,
         NzDescriptionsModule,
         NzBadgeModule,
         NzGridModule,
         NzAlertModule,
         NzToolTipModule,
+        NzSpinModule,
       ]
     });
 
@@ -38,26 +42,28 @@ describe('SiteComponent', () => {
   //   expect(component).toBeTruthy();
   // });
 
-  it('should get site', () => {
+  it('should get site', fakeAsync(() => {
     const site = sites[3]
     const spyRoute = spyOn(route.snapshot.paramMap, 'get')
     spyRoute.and.returnValue(site.name)
     fixture = TestBed.createComponent(SiteComponent);
     fixture.detectChanges();
     component = fixture.componentInstance
+    flush()
     expect(route.snapshot.paramMap.get).toHaveBeenCalled()
     expect(component.site).toBeDefined()
     expect(component.site).toBe(site)
     expect(component.siteName).toBe(site.name)
-  })
-  it('should should not get unknown site', () => {
+  }))
+  it('should should not get unknown site', fakeAsync(() => {
     const spyRoute = spyOn(route.snapshot.paramMap, 'get')
     spyRoute.and.returnValue('Missing')
     fixture = TestBed.createComponent(SiteComponent);
     fixture.detectChanges();
     component = fixture.componentInstance
+    flush()
     expect(route.snapshot.paramMap.get).toHaveBeenCalled()
     expect(component.site).toBeUndefined()
     expect(component.siteName).toBe('Missing')
-  })
+  }))
 });
