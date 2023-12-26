@@ -35,7 +35,7 @@
 <nz-divider nzType="horizontal"></nz-divider>
 
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <div nz-col nzOffset="4">For more detail visit https://crontab.guru</div>
+    <div nz-col nzOffset="4">For more detail visit <a href="https://crontab.guru">https://crontab.guru</a></div>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="cron" nzRequired>Cron timing</nz-form-label>
         <nz-form-control [nzExtra]="getCron">
