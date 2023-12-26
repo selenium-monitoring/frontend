@@ -36,7 +36,9 @@ export class SiteListComponent {
 
   search() {
     this.visible = false
-    this.shownSites = this.allSites?.filter((item: Site) => item.name.indexOf(this.searchValue) !== -1)
+    this.shownSites = this.allSites?.filter(
+      (item: Site) => item.name.toLocaleLowerCase().indexOf(this.searchValue.toLocaleLowerCase()) !== -1
+    )
   }
   reset() {
     this.searchValue = ''
