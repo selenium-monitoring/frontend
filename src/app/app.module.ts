@@ -38,6 +38,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 
 import { registerLocaleData } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 import en from '@angular/common/locales/en';
 registerLocaleData(en);
 import { provideNzI18n, en_US } from 'ng-zorro-antd/i18n';
@@ -110,7 +111,8 @@ const icons: IconDefinition[] = [
     provideNzConfig(ngZorroConfig),
     provideNzI18n(en_US),
     LoginService,
-    {provide: TitleStrategy, useClass: appTitleStrategy}
+    {provide: TitleStrategy, useClass: appTitleStrategy},
+    {provide: LOCALE_ID, useValue: "en-US"},
   ],
   bootstrap: [AppComponent],
 })
