@@ -29,12 +29,10 @@ export class LoginComponent {
   submitForm(): void {
     this.loggingIn = true
     if (this.validateForm.valid) {
-      // console.log('submit', this.validateForm.value);
       const {userName, password} = this.validateForm.value
       
       if (userName === undefined || password === undefined) {return;}
         this.backend.tryLogin(userName, password).then((value) => {
-          console.log('trylogin', value)
           if (value) {this.router.navigate(['/'])}
           else {
             this.isInvalidLogin = true
