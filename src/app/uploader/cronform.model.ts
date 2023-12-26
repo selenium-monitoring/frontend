@@ -12,7 +12,7 @@ export type CronFormEventType = {
     name: string,
     cron: string,
     repository: string,
-    iamge: string,
+    image: string,
     tag: string,
     retries: number,
   }

@@ -7,6 +7,9 @@ import { AbstractControl, FormGroup, NonNullableFormBuilder, ValidationErrors, V
 import { SideFile, SideFileType } from './side.model';
 import { isRight } from 'fp-ts/Either'
 import { CronFormEventType, CronFormType } from './cronform.model';
+import { BackendService } from '../backend.service';
+import { keyof } from 'io-ts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-uploader',
@@ -27,10 +30,15 @@ export class UploaderComponent {
   cronMonth: string = "*"
   cronWeekDay: string = "*"
 
-  constructor(private msg: NzMessageService, private fb: NonNullableFormBuilder){
+  constructor(
+    private msg: NzMessageService,
+    private fb: NonNullableFormBuilder,
+    private backend: BackendService,
+    private router: Router,
+  ){
     this.validateForm = this.fb.group({
       name: ['', [Validators.minLength(3), Validators.required]],
-      cron: [this.cronValue, [this.validateCron]],
+      cron: [this.cronValue, [this.validateCron, Validators.required]],
       repository: ['', [Validators.required, Validators.minLength(1)]],
       image: ['', [Validators.required, Validators.minLength(1)]],
       tag: ['latest'],
@@ -91,7 +99,7 @@ export class UploaderComponent {
   }
 
   submitForm() {
-    if (!this.validateForm.valid || this.file === undefined) {
+    if (!this.validateForm.valid || this.fileInfo === undefined) {
       this.msg.error('Invalid Form')
       this.validateForm.markAsPristine()
       Object.values(this.validateForm.controls).forEach(control => {
@@ -102,7 +110,16 @@ export class UploaderComponent {
       })
       return
     }
-    this.msg.success('Successfully uploaded')
+    // constrols are Partial because they can be disabled
+    // https://stackoverflow.com/a/73751998
+    const val = this.validateForm.getRawValue()
+    this.backend.submitSite(val, this.fileInfo).then(()=> {
+      this.msg.success('Successfully uploaded')
+      this.router.navigate(['sites'])
+    }).catch((reason:Error) => {
+      this.msg.error(reason.message)
+    })
+    
   }
   validateCron(control: AbstractControl): ValidationErrors | null {
     try {

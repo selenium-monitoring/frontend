@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
+import { ComponentFixture, TestBed, discardPeriodicTasks, fakeAsync, flush,  } from '@angular/core/testing';
 
 import { UploaderComponent } from './uploader.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { SideFile, SideFileType } from './side.model';
 import { equals } from 'fp-ts/lib/Ord';
+import { sites } from '../site-list/mock-sites';
+import { Router } from '@angular/router';
 const icons: IconDefinition[] = [
   InboxOutline, FormOutline, ReloadOutline
 ];
@@ -28,6 +30,7 @@ describe('UploaderComponent', () => {
   let component: UploaderComponent;
   let fixture: ComponentFixture<UploaderComponent>;
   let msg: NzMessageService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,6 +53,8 @@ describe('UploaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     msg = TestBed.inject(NzMessageService);
+    router = TestBed.inject(Router)
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true))
 
     let functions:(keyof NzMessageService)[] = [
       'error', 'info','success', 'warning'
@@ -145,8 +150,9 @@ describe('UploaderComponent', () => {
       expect(component.validateForm.controls.cron.invalid).toBeFalse()
     });
     
-    it('should accept', () => {
-      component.file = {} as NzUploadFile
+    it('should accept', fakeAsync(() => {
+      // fileInfo only needs the url property for validation
+      component.fileInfo = {url:'test'} as SideFileType
       component.validateForm.setValue({
         cron: '* * * * *',
         image: 'test',
@@ -157,9 +163,31 @@ describe('UploaderComponent', () => {
       });
       component.submitForm()
       expect(component.validateForm.valid).toBeTrue()
+      flush()
       expect(msg.error).not.toHaveBeenCalled()
+      expect(router.navigate).toHaveBeenCalledWith(['sites'])
       expect(component.validateForm.dirty).toBeFalse();
-    });
+    }));
+
+    it('should not accept duplicate name', fakeAsync(() => {
+      const dummy = sites[0]
+      component.fileInfo = {url:'test'} as SideFileType
+      component.validateForm.setValue({
+        cron: '* * * * *',
+        image: 'test',
+        name: dummy.name,
+        repository: 'test',
+        retries: 1,
+        tag: ''
+      });
+      expect(component.validateForm.valid).toBeTrue()
+      component.submitForm()
+      flush()
+      expect(msg.error).toHaveBeenCalledWith(`Name "${component.validateForm.value.name}" already exists!`)
+      expect(component.validateForm.dirty).toBeFalse();
+      discardPeriodicTasks()
+      flush()
+    }));
   });
 
   describe('Cron logic', () => {
