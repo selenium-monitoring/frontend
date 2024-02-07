@@ -26,7 +26,9 @@
             </span></td>
             <td>{{ (site.getNextRun | date:'medium') || 'Invalid' }}</td>
             <td>{{ site.dateAdded | date:'medium' }}</td>
-            <td><nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag></td>
+            <td><span nz-tooltip [nzTooltipTitle]="site.getLastRun | date:'medium'">
+                <nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag>
+            </span></td>
         </tr>
     </tbody>
 </nz-table>

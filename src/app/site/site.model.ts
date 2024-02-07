@@ -1,6 +1,6 @@
 
 import cronstrue from 'cronstrue/i18n';
-import { parseExpression, CronDate } from 'cron-parser'
+import { parseExpression, CronDate, CronExpression } from 'cron-parser'
 
 export class Site {
     constructor(
@@ -9,20 +9,26 @@ export class Site {
         public dateAdded: Date,
         public cron: string,
         public lastResult: 'Success'|'Error'|'Running'|'Unknown',
-        private interval?: CronDate
+        private nextRunTime?: Date,
+        private lastRunTime?: Date,
     ) {
       try {
-        this.interval = parseExpression(this.cron).next()
+        const expression = parseExpression(this.cron)
+        this.nextRunTime = expression.next().toDate()
+        this.lastRunTime = expression.prev().toDate()
       }
       catch {}
     }
     get getReadableCron():string {
-        if (this.interval !== undefined)
-          return cronstrue.toString(this.cron, {locale: 'en'})
-        else return 'Invalid'
+      if (this.nextRunTime !== undefined)
+        return cronstrue.toString(this.cron, {locale: 'en'})
+      else return 'Invalid'
+    }
+    get getLastRun() {
+      return this.lastRunTime
     }
     get getNextRun() {
-      return this.interval?.toString()
+      return this.nextRunTime
     }
 
     get lastResultAsStatus() {

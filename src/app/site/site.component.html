@@ -7,7 +7,9 @@
             <nz-descriptions-item nzTitle="URL">{{ site?.url }}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Created">{{ site?.dateAdded }}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Last Result">
-                <nz-badge [nzStatus]="site?.lastResultAsStatus" [nzText]="site?.lastResult"></nz-badge>
+                <span nz-tooltip [nzTooltipTitle]="site?.getLastRun === undefined ? 'Invalid' : (site?.getLastRun | date:'medium')">
+                    <nz-badge [nzStatus]="site?.lastResultAsStatus" [nzText]="site?.lastResult"></nz-badge>
+                </span>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="Cron">
                 <span nz-tooltip [nzTooltipTitle]="site?.getReadableCron">{{ site?.cron }}</span>
