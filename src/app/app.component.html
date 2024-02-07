@@ -1,43 +1,48 @@
 <div *ngIf="getUser && getUser.isLoggedIn; else anonymousTemplate">
     <nz-layout style="min-height: 100vh;">
-        <nz-sider nzCollapsible [nzCollapsedWidth]=64 [nzWidth]=200 [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-            <div nz-row nzJustify="center" nzAlign="middle" (click)="isCollapsed = !isCollapsed"
+        <nz-sider nzCollapsible [nzCollapsedWidth]=64 [nzWidth]=200 [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzTheme]="theme">
+            <span nz-row nzJustify="center" nzAlign="middle" (click)="isCollapsed = !isCollapsed"
                 nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
                 class="trigger"
-            ></div>
-            <ul nz-menu nzTheme="light" nzMode="inline" nz-row>
-                <li nz-menu-item>
+            ></span>
+            <ul nz-menu [nzTheme]="theme" nzMode="inline" nz-row>
+                <li nz-menu-item nzMatchRouter nzMatchRouterExact routerLink="/">
                     <span nz-icon nzType="dashboard"></span>
                     <span>Dashboard</span>
                 </li>
-                <li nz-menu-item>
+                <li nz-menu-item nzMatchRouter>
                     <span nz-icon nzType="bar-chart"></span>
                     <span>Statistics</span>
                 </li>
-                <li nz-menu-item>
+                <li nz-menu-item nzMatchRouter>
                     <span nz-icon nzType="calendar"></span>
                     <span>Calendar</span>
                 </li>
+                <li nz-menu-item nzMatchRouter routerLink="/sites">
+                    <span nz-icon nzType="layout"></span>
+                    <span >Sites</span>
+                </li>
+                <li nz-menu-item nzMatchRouter routerLink="/upload">
+                    <span nz-icon nzType="upload"></span>
+                    <span>Upload Site</span>
+                </li>
                 <li nz-submenu nzTitle="Profile" nzIcon="user">
                     <ul>
-                        <li nz-menu-item>Tom</li>
-                        <li nz-menu-item>Bill</li>
-                        <li nz-menu-item>Alex</li>
+                        <li nz-menu-item nzMatchRouter>Tom</li>
+                        <li nz-menu-item nzMatchRouter>Bill</li>
+                        <li nz-menu-item nzMatchRouter>Alex</li>
                     </ul>
                 </li>
-                <li nz-menu-item nzAlign="right">
+                <li nz-menu-item nzAlign="right" nzMatchRouter>
                     <span nz-icon nzType="setting"></span>
                     <span>Settings</span>
                 </li>
             </ul>
         </nz-sider>
         <nz-layout>
-            <nz-header>
+            <nz-header [ngStyle]="{'background-color': theme === 'dark'?'':'#fff'}">
                 <!-- <div class="logo"></div> -->
-                <ul nz-menu nzTheme="light" nzMode="horizontal">
-                    <li nz-menu-item nzMatchRouter><a routerLink="/login">Login</a></li>
-                    <li nz-menu-item nzMatchRouter><a routerLink="/upload">Upload</a></li>
-                    <li nz-menu-item nzMatchRouter><a routerLink="/sites">Sites</a></li>
+                <ul nz-menu [nzTheme]="theme" nzMode="horizontal">
                     <li nz-submenu [nzTitle]="getUser.username||'Unknown'" nzIcon="user" style="float: right;">
                         <!-- <span class="userbutton">{{ getUser?.username }}</span>
                             <nz-avatar [nzShape]="'circle'" [nzSize]="32" [nzIcon]="'user'"></nz-avatar> -->

@@ -52,7 +52,7 @@ const ngZorroConfig: NzConfig = {
 import { 
   LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline,
   MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, CalendarOutline, SettingOutline,
-  BarChartOutline, GlobalOutline
+  BarChartOutline, GlobalOutline, LayoutOutline, UploadOutline,
  } from '@ant-design/icons-angular/icons';
 import { UploaderComponent } from './uploader/uploader.component';
 import { LoginService } from './login/login.service';
@@ -65,7 +65,7 @@ import { BackendService } from './backend/backend.service';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline,
   MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, CalendarOutline, SettingOutline,
-  BarChartOutline, GlobalOutline
+  BarChartOutline, GlobalOutline, LayoutOutline, UploadOutline,
 ];
 
 @NgModule({

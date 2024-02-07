@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
 import { environment } from 'src/environments/environment';
 import { BackendService } from './backend/backend.service';
+import { NzMenuThemeType } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { BackendService } from './backend/backend.service';
 export class AppComponent {
   title = 'Selenium Monitoring';
   token = null;
-  isCollapsed = true
+  isCollapsed = true;
+  theme:NzMenuThemeType = "dark"
   
   constructor(private backendService: BackendService, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
   }
