@@ -13,7 +13,7 @@ import {
  } from '@ant-design/icons-angular/icons';
 import { Router } from '@angular/router';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../backend/backend.service';
 import { ApiModule } from '../services';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 const icons: IconDefinition[] = [

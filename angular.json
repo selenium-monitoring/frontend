@@ -78,6 +78,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.mocked.ts"
+                },
+                {
+                  "replace": "src/app/backend/backend.service.ts",
+                  "with": "src/app/backend/backend.service.mocked.ts"
                 }
               ]
             }
@@ -125,6 +129,10 @@
             "fileReplacements": [{
               "replace": "src/environments/environment.ts",
               "with": "src/environments/environment.mocked.ts"
+            },
+            {
+              "replace": "src/app/backend/backend.service.ts",
+              "with": "src/app/backend/backend.service.mocked.ts"
             }]
           }
         }

@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Site } from './site.model';
 
-import { BackendService } from '../backend.service';
+import { BackendService } from '../backend/backend.service';
 
 
 @Component({
   selector: 'app-site',
   templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+  styleUrls: ['./site.component.scss'],
+  providers: [{provide: BackendService, useClass: BackendService}],
 })
 export class SiteComponent {
   site?:Site

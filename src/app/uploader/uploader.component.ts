@@ -7,14 +7,14 @@ import { AbstractControl, FormGroup, NonNullableFormBuilder, ValidationErrors, V
 import { SideFile, SideFileType } from './side.model';
 import { isRight } from 'fp-ts/Either'
 import { CronFormEventType, CronFormType } from './cronform.model';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../backend/backend.service';
 import { keyof } from 'io-ts';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.scss']
+  styleUrls: ['./uploader.component.scss'],
 })
 export class UploaderComponent {
   validateForm: FormGroup<CronFormType>

@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Site } from '../site/site.model';
 import { NzTableSortOrder, NzTableSortFn } from 'ng-zorro-antd/table';
 import { sites } from './mock-sites';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../backend/backend.service';
 
 @Component({
   selector: 'app-site-list',
   templateUrl: './site-list.component.html',
-  styleUrls: ['./site-list.component.scss']
+  styleUrls: ['./site-list.component.scss'],
+  providers: [{provide: BackendService, useClass: BackendService}],
 })
 export class SiteListComponent {
   allSites?: Site[];

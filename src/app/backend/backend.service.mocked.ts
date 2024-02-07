@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
-import { ApiModule } from "./services";
+import { ApiModule } from "../services";
 import { environment } from "src/environments/environment";
-import { sites } from "./site-list/mock-sites";
-import { Site } from "./site/site.model";
-import { User } from "./login/user.model";
-import { LoginService } from "./login/login.service";
-import { CronFormEventType } from "./uploader/cronform.model";
-import { SideFileType } from "./uploader/side.model";
+import { sites } from "../site-list/mock-sites";
+import { Site } from "../site/site.model";
+import { User } from "../login/user.model";
+import { LoginService } from "../login/login.service";
+import { CronFormEventType } from "../uploader/cronform.model";
+import { SideFileType } from "../uploader/side.model";
+import { BackendServiceType } from "./backend.model";
 
 @Injectable({ providedIn: 'root'})
-export class BackendService {
-    isMocked: boolean
+export class BackendService implements BackendServiceType {
     // for spinner demonstration purposes
     private async delay() {await new Promise(res => setTimeout(res, 1000))}
 
@@ -18,7 +18,6 @@ export class BackendService {
         if (!environment.isMocked) {
             throw Error('API Service is not implemented yet!')
         }
-        this.isMocked = environment.isMocked
     }
 
     async tryLogin(name: string, password: string):Promise<User|undefined> {
@@ -49,5 +48,7 @@ export class BackendService {
             throw Error(`Name "${site.name}" already exists!`)
         }
         sites.push(site)
+
+        return true
     }
 }

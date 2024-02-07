@@ -3,12 +3,13 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { User } from './user.model';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
-import { BackendService } from '../backend.service';
+import { BackendService } from '../backend/backend.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [{provide: BackendService, useClass: BackendService}],
 })
 export class LoginComponent {
   pageName = 'Login'
