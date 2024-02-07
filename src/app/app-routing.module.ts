@@ -16,9 +16,9 @@ const routes: Routes = [
     canMatch: [loggedInGuard],
     children: [
       { path: '', title: 'Dashboard', component: MainComponent },
-      { path: 'sites', title: 'Websites',
+      { path: 'sites',
         children: [
-          { path: '', title: 'Dashboard', component: SiteListComponent },
+          { path: '', title: 'Websites', component: SiteListComponent },
           { path: ':name', title: 'Website Detail', component: SiteComponent},
         ]
       },
