@@ -15,9 +15,6 @@ export class BackendService implements BackendServiceType {
     private async delay() {await new Promise(res => setTimeout(res, 1000))}
 
     constructor(private apiService: ApiModule, private login: LoginService) {
-        if (!environment.isMocked) {
-            throw Error('API Service is not implemented yet!')
-        }
     }
 
     async tryLogin(name: string, password: string):Promise<User|undefined> {
