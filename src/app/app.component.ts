@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { ApiModule } from './services';
-import { Observable } from 'rxjs';
 import { LoginService } from './login/login.service';
-import { User } from './login/user.model';
 import { Router } from '@angular/router';
-import { BreadcrumbInfo, BreadcrumbService } from './main/breadcrumb.service';
-import { environment } from 'src/environments/environment';
+import { BreadcrumbService } from './main/breadcrumb.service';
 import { BackendService } from './backend/backend.service';
 import { NzMenuThemeType } from 'ng-zorro-antd/menu';
+import { appTitleStrategy } from './app-routing.module';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +16,15 @@ export class AppComponent {
   title = 'Selenium Monitoring';
   token = null;
   isCollapsed = true;
-  theme:NzMenuThemeType = "dark"
+  theme:NzMenuThemeType = "dark";
   
-  constructor(private backendService: BackendService, private loginService: LoginService, private router: Router, public breadcrumbs: BreadcrumbService) {
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    public breadcrumbs: BreadcrumbService,
+    public titleService: appTitleStrategy,
+    ) {
+      titleService.getTitleEvent.subscribe((newTitle) => this.title = newTitle)
   }
   
   get getUser() {

@@ -3,6 +3,9 @@
         <nz-header [ngStyle]="{'background-color': theme === 'dark'?'':'#fff'}">
             <!-- <div class="logo"></div> -->
             <ul nz-menu [nzTheme]="theme" nzMode="horizontal">
+                <li style="float: left;">
+                    <span>{{ title }}</span>
+                </li>
                 <li nz-submenu [nzTitle]="getUser.username||'Unknown'" nzIcon="user" style="float: right;">
                     <!-- <span class="userbutton">{{ getUser?.username }}</span>
                         <nz-avatar [nzShape]="'circle'" [nzSize]="32" [nzIcon]="'user'"></nz-avatar> -->

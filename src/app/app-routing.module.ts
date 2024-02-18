@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
 import { loggedInGuard } from './logged-in.guard';
+import { Subject } from 'rxjs';
 
 const routes: Routes = [
   { path: 'login', title: 'Login', component: LoginComponent },
@@ -22,7 +23,7 @@ const routes: Routes = [
           { path: ':name', title: 'Website Detail', component: SiteComponent},
         ]
       },
-      { path: 'upload', title: 'Upload Test', component: UploaderComponent },
+      { path: 'upload', title: 'Upload', component: UploaderComponent },
     ]
   },
   { path: '**', title: 'Redirecting', redirectTo: '/login', pathMatch: 'prefix'},
@@ -34,9 +35,11 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
+// Global variable prevents the Injectable from sending mesage to the wrong object
+const titleEvent = new Subject<string>()
 @Injectable({providedIn: 'root'})
 export class appTitleStrategy extends TitleStrategy {
-  constructor(private readonly title: Title) {
+  constructor(public readonly title: Title) {
     super();
   }
 
@@ -44,8 +47,14 @@ export class appTitleStrategy extends TitleStrategy {
     const title = this.buildTitle(routerState);
     if (title !== undefined) {
       this.title.setTitle(`${title} | Selenium Monitoring`);
+      titleEvent.next(title)
     }
   }
+
+  get getTitleEvent() {
+    return titleEvent.asObservable()
+  }
+
 }
 
 
