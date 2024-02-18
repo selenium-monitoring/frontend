@@ -6,17 +6,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-
-import { IconDefinition } from '@ant-design/icons-angular';
-import { 
-  DashboardOutline, BarChartOutline, SettingOutline,
-  UserOutline, GlobalOutline, MenuUnfoldOutline, MenuFoldOutline
- } from '@ant-design/icons-angular/icons';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-const icons: IconDefinition[] = [
-  DashboardOutline, BarChartOutline, SettingOutline,
-  UserOutline, GlobalOutline, MenuUnfoldOutline, MenuFoldOutline
-];
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -25,7 +15,7 @@ describe('AppComponent', () => {
       ApiModule,
       NzLayoutModule,
       NzBreadCrumbModule,
-      NzIconModule.forRoot(icons),
+      NzIconModule,
       NzMenuModule,
       NzDividerModule,
     ],
