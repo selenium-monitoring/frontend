@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Site } from './site.model';
 
 import { BackendService } from '../backend/backend.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -17,12 +18,16 @@ export class SiteComponent {
   isLoading = true
 
 
-  constructor(private route: ActivatedRoute, private backend: BackendService) {
+  constructor(private route: ActivatedRoute, private backend: BackendService, private msg: NzMessageService ) {
     this.siteName = route.snapshot.paramMap.get('name') || ''
     backend.getSiteDetail(this.siteName).then((site) => {
-      this.isLoading = false
       if (site === undefined) return
       this.site =  site
-    })
+    }).catch((err) => {
+      if(err['status'] != 404) {
+        this.msg.error(err['message'])
+      }
+    }).finally(() => this.isLoading = false);
+    
   }
 }

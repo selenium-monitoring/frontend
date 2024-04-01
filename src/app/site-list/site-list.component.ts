@@ -4,6 +4,7 @@ import { Site } from '../site/site.model';
 import { NzTableSortOrder, NzTableSortFn } from 'ng-zorro-antd/table';
 import { sites } from './mock-sites';
 import { BackendService } from '../backend/backend.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-site-list',
@@ -28,10 +29,13 @@ export class SiteListComponent {
     { text: "Unknown", value: "Unknown"},
   ]
 
-  constructor(private router: Router, private backend: BackendService) {
+  constructor(private router: Router, private backend: BackendService, private msg: NzMessageService ) {
     backend.getSites().then((sites) => {
       this.allSites = sites
       this.shownSites = [...this.allSites]
+    }).catch(err => {
+      this.msg.error(err['message'])
+      this.allSites = this.shownSites = []
     })
   }
 
