@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { ApiModule } from './services/api.module';
+import { ApiModule } from './backend/api/api.module';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -62,6 +62,8 @@ import { SiteListComponent } from './site-list/site-list.component';
 import { SiteComponent } from './site/site.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BackendService } from './backend/backend.service';
+import { environment } from 'src/environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline,
   MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, CalendarOutline, SettingOutline,
@@ -80,7 +82,8 @@ const icons: IconDefinition[] = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ApiModule,
+    HttpClientModule,
+    ApiModule.forRoot({ rootUrl: environment.baseApiUrl }),
     NzLayoutModule,
     NzBreadCrumbModule,
     NzMenuModule,

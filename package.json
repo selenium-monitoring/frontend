@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "mocked": "ng serve --configuration=mocked",
     "remote": "ng serve --host=0.0.0.0 --disable-host-check",
-    "test": "ng test"
+    "test": "ng test",
+    "generate": "node_modules/.bin/ng-swagger-gen -i ../backend/swagger.yaml -o "
   },
   "private": true,
   "dependencies": {
@@ -33,7 +34,6 @@
     "@angular-devkit/build-angular": "^16.0.2",
     "@angular/cli": "~16.0.2",
     "@angular/compiler-cli": "^16.0.0",
-    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@types/jasmine": "~4.3.0",
     "@types/node": "^20.12.2",
     "jasmine-core": "~4.6.0",
@@ -42,6 +42,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "ng-swagger-gen": "^2.3.1",
     "typescript": "~5.0.2"
   }
 }
