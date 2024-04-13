@@ -6,13 +6,18 @@
                 <li style="float: left;">
                     <span>{{ title }}</span>
                 </li>
+                <li style="float:right">
+                    <span nz-tooltip [nzTooltipTitle]="status ? 'Online' : 'Offline'">
+                        <nz-badge [nzStatus]="serverStatusString"></nz-badge>
+                    </span>
+                </li>
                 <li nz-submenu [nzTitle]="getUser.username||'Unknown'" nzIcon="user" style="float: right;">
                     <!-- <span class="userbutton">{{ getUser?.username }}</span>
                         <nz-avatar [nzShape]="'circle'" [nzSize]="32" [nzIcon]="'user'"></nz-avatar> -->
-                        <ul>
-                            <li nz-menu-item><span (click)="logoutUser()">Logout</span></li>
-                        </ul>
-                    </li>
+                    <ul>
+                        <li nz-menu-item><span (click)="logoutUser()">Logout</span></li>
+                    </ul>
+                </li>
                 <li nz-submenu style="float:right" nzIcon="global">
                     <ul>
                         <li nz-menu-item nzMatchRouter>English (US)</li>

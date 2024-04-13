@@ -21,6 +21,7 @@ export class AppComponent {
   constructor(
     private loginService: LoginService,
     private router: Router,
+    private backend: BackendService,
     public breadcrumbs: BreadcrumbService,
     public titleService: appTitleStrategy,
     ) {
@@ -33,6 +34,17 @@ export class AppComponent {
   logoutUser() {
     this.loginService.logout()
     this.router.navigateByUrl('login')
+  }
+
+  get status() {
+    return this.backend.status
+  }
+  get serverStatusString() {
+    switch (this.backend.status){
+      case undefined: return "default"
+      case true: return "success"
+      case false: return "error"
+    }
   }
 
   // fetchData(): Observable<any> {

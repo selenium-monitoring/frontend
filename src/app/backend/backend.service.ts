@@ -19,24 +19,27 @@ let status: boolean|undefined
 export class BackendService implements BackendServiceType {
     get status() {return status}
     renewStatus() {
-        console.log(`renewing status ${status}`)
         const pr = this.apiService.pingResponse()
-        try {
-            pr.subscribe((response) => {
+        const sub = pr.subscribe({
+            next: (response) => {
                 status = response.status < 400
-            })
-        }
-        catch {
-            status = false
-        }
+                sub.unsubscribe()
+            },
+            error: () => {
+                status = false
+                sub.unsubscribe()
+            }
+        })
+
         setTimeout(() => {
             this.renewStatus()
-        }, 1000);
+        }, 2000);
     }
     
     constructor(private apiService: ApiService, private login: LoginService) {
         //throw Error('API Service is not implemented yet!')
         if (status === undefined) {
+            status = false
             this.renewStatus()
         }
     }
