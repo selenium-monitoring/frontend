@@ -4,6 +4,7 @@ import { CronFormEventType } from "../uploader/cronform.model";
 import { SideFileType } from "../uploader/side.model";
 
 export interface BackendServiceType {
+    get status(): boolean
     // Auth
     tryLogin(name: string, password: string): Promise<User|undefined>
 

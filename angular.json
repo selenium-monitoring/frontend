@@ -27,7 +27,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/silent-renew.html"
             ],
             "styles": [
               "src/styles.scss"
@@ -131,14 +132,16 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "fileReplacements": [{
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.mocked.ts"
-            },
-            {
-              "replace": "src/app/backend/backend.service.ts",
-              "with": "src/app/backend/backend.service.mocked.ts"
-            }]
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.mocked.ts"
+              },
+              {
+                "replace": "src/app/backend/backend.service.ts",
+                "with": "src/app/backend/backend.service.mocked.ts"
+              }
+            ]
           }
         }
       }

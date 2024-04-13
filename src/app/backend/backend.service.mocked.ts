@@ -1,6 +1,4 @@
 import { Injectable } from "@angular/core";
-import { ApiModule } from "../services";
-import { environment } from "src/environments/environment";
 import { sites } from "../site-list/mock-sites";
 import { Site } from "../site/site.model";
 import { User } from "../login/user.model";
@@ -14,7 +12,8 @@ export class BackendService implements BackendServiceType {
     // for spinner demonstration purposes
     private async delay() {await new Promise(res => setTimeout(res, 1000))}
 
-    constructor(private apiService: ApiModule, private login: LoginService) {
+    get status() {return true}
+    constructor(private login: LoginService) {
     }
 
     async tryLogin(name: string, password: string):Promise<User|undefined> {

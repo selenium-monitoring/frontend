@@ -15,9 +15,27 @@ function createSiteFromAPI(site: ApiSite) : Site {
 
 @Injectable({ providedIn: 'root'})
 export class BackendService implements BackendServiceType {
+    status = false
+
+    renewStatus() {
+        console.log(`renewing status ${this.status}`)
+        const pr = this.apiService.pingResponse()
+        try {
+            pr.subscribe((response) => {
+                this.status = response.status < 400
+            })
+        }
+        catch {
+            this.status = false
+        }
+        setTimeout(() => {
+            this.renewStatus()
+        }, 1000);
+    }
     
     constructor(private apiService: ApiService, private login: LoginService) {
         //throw Error('API Service is not implemented yet!')
+        this.renewStatus()
     }
 
     async tryLogin(name: string, password: string):Promise<User|undefined> {
@@ -37,8 +55,8 @@ export class BackendService implements BackendServiceType {
 
     async getSiteDetail(name: string): Promise<Site|undefined> {
         return new Promise<Site>((resolve, reject) => {
-            this.apiService.SiteItem(name).subscribe({
-                next(site) {resolve(createSiteFromAPI(site))},
+            const subscription = this.apiService.SiteItem(name).subscribe({
+                next(site) {resolve(createSiteFromAPI(site)); subscription.unsubscribe()},
                 error(err) {reject(err)}
             })
         })

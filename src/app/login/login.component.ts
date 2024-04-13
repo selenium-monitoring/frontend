@@ -4,6 +4,7 @@ import { User } from './user.model';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../backend/backend.service';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-login',
@@ -52,12 +53,22 @@ export class LoginComponent {
     }
   }
 
+  ssoLogin() {
+    console.log('Hello')
+    this.oidcSecurityService.authorize()
+  }
+
   constructor(private fb: NonNullableFormBuilder,
               private login: LoginService,
               private router: Router,
-              private backend: BackendService) {
+              private backend: BackendService,
+              private oidcSecurityService: OidcSecurityService) {
     if (login.getUser?.isLoggedIn) {
       router.navigateByUrl('')
+    } else {
+      this.oidcSecurityService.isAuthenticated$.subscribe(
+        ({isAuthenticated}) => console.log(isAuthenticated)
+      )
     }
   }
 }
