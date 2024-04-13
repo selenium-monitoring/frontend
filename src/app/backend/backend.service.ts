@@ -13,20 +13,21 @@ function createSiteFromAPI(site: ApiSite) : Site {
     return new Site(site.name, site.urls.at(0)||'MISSING', createDate, site.cron, site.lastResult)
 }
 
+let status: boolean|undefined
+
 @Injectable({ providedIn: 'root'})
 export class BackendService implements BackendServiceType {
-    status = false
-
+    get status() {return status}
     renewStatus() {
-        console.log(`renewing status ${this.status}`)
+        console.log(`renewing status ${status}`)
         const pr = this.apiService.pingResponse()
         try {
             pr.subscribe((response) => {
-                this.status = response.status < 400
+                status = response.status < 400
             })
         }
         catch {
-            this.status = false
+            status = false
         }
         setTimeout(() => {
             this.renewStatus()
@@ -35,7 +36,9 @@ export class BackendService implements BackendServiceType {
     
     constructor(private apiService: ApiService, private login: LoginService) {
         //throw Error('API Service is not implemented yet!')
-        this.renewStatus()
+        if (status === undefined) {
+            this.renewStatus()
+        }
     }
 
     async tryLogin(name: string, password: string):Promise<User|undefined> {
