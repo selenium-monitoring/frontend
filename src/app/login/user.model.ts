@@ -1,10 +1,11 @@
 export class User {
     constructor(
         public username: string,
-        private _token: string,
-        private expires: Date) {}
+        private expires: Date,
+        private _token?: string,
+    ) {}
     
     get isLoggedIn() {
-        return true;
+        return true
     }
 }

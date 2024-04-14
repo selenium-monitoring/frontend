@@ -7,45 +7,52 @@ import { CronFormEventType } from "../uploader/cronform.model";
 import { SideFileType } from "../uploader/side.model";
 import { BackendServiceType } from "./backend.model";
 import { ApiService } from "./api/services";
+import { catchError, of } from "rxjs";
 
 function createSiteFromAPI(site: ApiSite) : Site {
     const createDate = new Date(site.dateAdded)
     return new Site(site.name, site.urls.at(0)||'MISSING', createDate, site.cron, site.lastResult)
 }
 
-let status: boolean|undefined
+let status: boolean|undefined|null = null
 
 @Injectable({ providedIn: 'root'})
 export class BackendService implements BackendServiceType {
-    get status() {return status}
+    get status() {return status!}
     renewStatus() {
-        const pr = this.apiService.pingResponse()
-        const sub = pr.subscribe({
+        const pr = this.apiService.pingResponse().subscribe({
             next: (response) => {
                 status = response.status < 400
-                sub.unsubscribe()
             },
-            error: () => {
+            error: (error) => {
                 status = false
-                sub.unsubscribe()
             }
         })
-
-        setTimeout(() => {
-            this.renewStatus()
-        }, 2000);
     }
     
     constructor(private apiService: ApiService, private login: LoginService) {
         //throw Error('API Service is not implemented yet!')
-        if (status === undefined) {
-            status = false
-            this.renewStatus()
+        if (status === null) {
+            status = undefined
+            setInterval(()=>this.renewStatus(), 2000);
         }
     }
 
-    async tryLogin(name: string, password: string):Promise<User|undefined> {
-        throw Error('API Service is not implemented yet!')
+    async tryLogin(name: string, password: string, shouldRemember: boolean):Promise<User|undefined> {
+        return new Promise<User>((resolve, reject) => {
+            const subscription = this.apiService.LoginResponse({username: name, password: password}).subscribe({
+                next({body}) {
+                    if (shouldRemember) {
+                        localStorage.setItem('Username', body.name)
+                        localStorage.setItem('Expiry', body.expire)
+                    }
+                    const user = new User(body.name, new Date(body.expire))
+                    resolve(user)
+                    subscription.unsubscribe()
+                },
+                error(err) {reject(err)},
+            })
+        })
     }
     
     async getSites(): Promise<Site[]> {

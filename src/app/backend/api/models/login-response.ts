@@ -5,5 +5,9 @@ export interface LoginResponse {
    * Expiry of the token
    */
   expire: string;
-  token: string;
+
+  /**
+   * Displayed name of the user
+   */
+  name: string;
 }

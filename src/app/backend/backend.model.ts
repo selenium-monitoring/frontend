@@ -6,7 +6,7 @@ import { SideFileType } from "../uploader/side.model";
 export interface BackendServiceType {
     get status(): boolean | undefined
     // Auth
-    tryLogin(name: string, password: string): Promise<User|undefined>
+    tryLogin(name: string, password: string, shouldRemember: boolean): Promise<User|undefined>
 
     // Get
     getSites(): Promise<Site[]>

@@ -31,15 +31,21 @@ export class LoginComponent {
   submitForm(): void {
     this.loggingIn = true
     if (this.validateForm.valid) {
-      const {userName, password} = this.validateForm.value
+      const {userName, password, remember} = this.validateForm.value
       
       if (userName === undefined || password === undefined) {return;}
-        this.backend.tryLogin(userName, password).then((value) => {
-          if (value) {this.router.navigate(['/'])}
+        this.backend.tryLogin(userName, password, remember||false).then((user) => {
+          if (user) {
+            this.login.loginUser(user)
+            this.router.navigateByUrl('/')
+          }
           else {
             this.isInvalidLogin = true
             this.loggingIn = false
           }
+        }).catch((error) => {
+          this.isInvalidLogin = true
+          this.loggingIn = false
         })
     } else {
       this.isInvalidLogin = false
@@ -54,8 +60,15 @@ export class LoginComponent {
   }
 
   ssoLogin() {
-    console.log('Hello')
     this.oidcSecurityService.authorize()
+  }
+
+  get serverStatusString() {
+    switch (this.backend.status){
+      case undefined: return "default"
+      case true: return "success"
+      case false: return "error"
+    }
   }
 
   constructor(private fb: NonNullableFormBuilder,
@@ -63,12 +76,8 @@ export class LoginComponent {
               private router: Router,
               private backend: BackendService,
               private oidcSecurityService: OidcSecurityService) {
-    if (login.getUser?.isLoggedIn) {
-      router.navigateByUrl('')
-    } else {
-      this.oidcSecurityService.isAuthenticated$.subscribe(
-        ({isAuthenticated}) => console.log(isAuthenticated)
-      )
+    if (login.getUser) {
+      router.navigateByUrl('/')
     }
   }
 }

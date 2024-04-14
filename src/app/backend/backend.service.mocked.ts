@@ -16,7 +16,7 @@ export class BackendService implements BackendServiceType {
     constructor(private login: LoginService) {
     }
 
-    async tryLogin(name: string, password: string):Promise<User|undefined> {
+    async tryLogin(name: string, password: string, shouldRemember: boolean):Promise<User|undefined> {
         await this.delay()
         if (name !== password) return undefined
         return await this.login.login(name, password, new Date())

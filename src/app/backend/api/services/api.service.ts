@@ -8,7 +8,9 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { LoginResponse } from '../models/login-response';
+import { Login } from '../models/login';
 import { SiteList } from '../models/site-list';
+import { SubmitSite } from '../models/submit-site';
 import { Site } from '../models/site';
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,7 @@ class ApiService extends __BaseService {
   static readonly LoginPath = '/api/v1/login';
   static readonly pingPath = '/api/v1/ping';
   static readonly SiteListPath = '/api/v1/sites/';
-  static readonly SubmitListPath = '/api/v1/sites/';
+  static readonly SubmitSitePath = '/api/v1/sites/';
   static readonly SiteItemPath = '/api/v1/sites/{site}';
 
   constructor(
@@ -28,20 +30,14 @@ class ApiService extends __BaseService {
   }
 
   /**
-   * @param params The `ApiService.LoginParams` containing the following parameters:
-   *
-   * - `username`:
-   *
-   * - `password`:
-   *
+   * @param Body undefined
    * @return LoginResponse
    */
-  LoginResponse(params: ApiService.LoginParams): __Observable<__StrictHttpResponse<LoginResponse>> {
+  LoginResponse(Body: Login): __Observable<__StrictHttpResponse<LoginResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.username != null) __params = __params.set('username', params.username.toString());
-    if (params.password != null) __params = __params.set('password', params.password.toString());
+    __body = Body;
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/login`,
@@ -60,16 +56,11 @@ class ApiService extends __BaseService {
     );
   }
   /**
-   * @param params The `ApiService.LoginParams` containing the following parameters:
-   *
-   * - `username`:
-   *
-   * - `password`:
-   *
+   * @param Body undefined
    * @return LoginResponse
    */
-  Login(params: ApiService.LoginParams): __Observable<LoginResponse> {
-    return this.LoginResponse(params).pipe(
+  Login(Body: Login): __Observable<LoginResponse> {
+    return this.LoginResponse(Body).pipe(
       __map(_r => _r.body as LoginResponse)
     );
   }
@@ -131,10 +122,15 @@ class ApiService extends __BaseService {
       __map(_r => _r.body as SiteList)
     );
   }
-  SubmitListResponse(): __Observable<__StrictHttpResponse<null>> {
+
+  /**
+   * @param Body undefined
+   */
+  SubmitSiteResponse(Body?: SubmitSite): __Observable<__StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    __body = Body;
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/sites/`,
@@ -151,8 +147,12 @@ class ApiService extends __BaseService {
         return _r as __StrictHttpResponse<null>;
       })
     );
-  }  SubmitList(): __Observable<null> {
-    return this.SubmitListResponse().pipe(
+  }
+  /**
+   * @param Body undefined
+   */
+  SubmitSite(Body?: SubmitSite): __Observable<null> {
+    return this.SubmitSiteResponse(Body).pipe(
       __map(_r => _r.body as null)
     );
   }
@@ -195,14 +195,6 @@ class ApiService extends __BaseService {
 }
 
 module ApiService {
-
-  /**
-   * Parameters for Login
-   */
-  export interface LoginParams {
-    username: string;
-    password: string;
-  }
 }
 
 export { ApiService }

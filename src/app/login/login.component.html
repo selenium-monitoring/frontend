@@ -3,6 +3,10 @@
     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
       <div style="text-align: center;">Selenium Monitoring</div>
       <nz-divider></nz-divider>
+      <div style="text-align: center;">
+        <nz-badge [nzStatus]="serverStatusString">Server Status</nz-badge>
+      </div>
+      <nz-divider></nz-divider>
       <div *ngIf="isInvalidLogin">
         <nz-alert nzType="error" nzMessage="Invalid Username or Password!">
         </nz-alert>
