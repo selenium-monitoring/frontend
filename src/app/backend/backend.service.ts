@@ -75,7 +75,33 @@ export class BackendService implements BackendServiceType {
         })
     }
 
-    async submitSite(info:CronFormEventType, fileData: SideFileType): Promise<boolean> {
-        throw Error('API Service is not implemented yet!')
+    async submitSite(info:CronFormEventType, fileRaw: File, fileData: SideFileType): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onloadend = () => {
+                const subscription = this.apiService.SubmitSiteResponse({
+                    name: info.name,
+                    cron: info.cron,
+                    repository: info.repository,
+                    image: info.image,
+                    tag: info.tag,
+                    retries: info.retries,
+                    file: btoa(fr.result as string),
+                }).subscribe({
+                    next(response) {resolve(response.ok); subscription.unsubscribe()},
+                    error(err) {reject(err)}
+                })
+            }
+            fr.readAsText(fileRaw)
+        })
+    }
+
+    async deleteSite(name: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const subscription = this.apiService.SiteItemDeleteResponse(name).subscribe({
+                next(response) {resolve(response.ok); subscription.unsubscribe()},
+                error(err) {reject(err)},
+            })
+        })
     }
 }

@@ -64,8 +64,9 @@ export class UploaderComponent {
         // file looks like a .side file
         file.status = 'success'
         this.fileInfo = data
-
-        this.file = file
+        
+        // @ts-ignore
+        this.file = file as File
         this.msg.success('File seems valid')
       }
       else {
@@ -113,7 +114,9 @@ export class UploaderComponent {
     // constrols are Partial because they can be disabled
     // https://stackoverflow.com/a/73751998
     const val = this.validateForm.getRawValue()
-    this.backend.submitSite(val, this.fileInfo).then(()=> {
+    // @ts-ignore
+    const file = this.file as File
+    this.backend.submitSite(val, file, this.fileInfo).then(()=> {
       this.msg.success('Successfully uploaded')
       this.router.navigate(['sites'])
     }).catch((reason:Error) => {

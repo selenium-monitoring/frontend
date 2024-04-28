@@ -20,6 +20,7 @@ class ApiService extends __BaseService {
   static readonly pingPath = '/api/v1/ping';
   static readonly SiteListPath = '/api/v1/sites/';
   static readonly SubmitSitePath = '/api/v1/sites/';
+  static readonly SiteItemDeletePath = '/api/v1/sites/{site}';
   static readonly SiteItemPath = '/api/v1/sites/{site}';
 
   constructor(
@@ -154,6 +155,44 @@ class ApiService extends __BaseService {
   SubmitSite(Body?: SubmitSite): __Observable<null> {
     return this.SubmitSiteResponse(Body).pipe(
       __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * Deletes Site and returns the last known state and detail
+   * @param site undefined
+   * @return Site
+   */
+  SiteItemDeleteResponse(site: string): __Observable<__StrictHttpResponse<Site>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/v1/sites/${encodeURIComponent(String(site))}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Site>;
+      })
+    );
+  }
+  /**
+   * Deletes Site and returns the last known state and detail
+   * @param site undefined
+   * @return Site
+   */
+  SiteItemDelete(site: string): __Observable<Site> {
+    return this.SiteItemDeleteResponse(site).pipe(
+      __map(_r => _r.body as Site)
     );
   }
 

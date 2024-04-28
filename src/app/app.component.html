@@ -8,7 +8,7 @@
                 </li>
                 <li style="float:right">
                     <span nz-tooltip [nzTooltipTitle]="status ? 'Online' : 'Offline'">
-                        <nz-badge [nzStatus]="serverStatusString"></nz-badge>
+                        <nz-badge [nzStatus]="serverStatusString" nzStandalone></nz-badge>
                     </span>
                 </li>
                 <li nz-submenu [nzTitle]="getUser.username||'Unknown'" nzIcon="user" style="float: right;">

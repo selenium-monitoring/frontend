@@ -13,5 +13,8 @@ export interface BackendServiceType {
     getSiteDetail(name: string): Promise<Site|undefined>
     
     // Post
-    submitSite(info:CronFormEventType, fileData: SideFileType):Promise<boolean>
+    submitSite(info:CronFormEventType, fileRaw: File, fileData?: SideFileType):Promise<boolean>
+
+    // Delete
+    deleteSite(name: string): Promise<boolean>
 }

@@ -9,7 +9,7 @@
     "mocked": "ng serve --configuration=mocked",
     "remote": "ng serve --host=0.0.0.0 --disable-host-check",
     "test": "ng test",
-    "generate": "node_modules/.bin/ng-swagger-gen -i ../backend/swagger.yaml -o "
+    "generate": "node_modules/.bin/ng-swagger-gen -i ../backend/swagger.yaml -o src/app/backend/api"
   },
   "private": true,
   "dependencies": {

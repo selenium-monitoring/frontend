@@ -31,7 +31,7 @@ export class BackendService implements BackendServiceType {
         return sites.find((value) => value.name === name)
     }
 
-    async submitSite(info:CronFormEventType, fileData: SideFileType) {
+    async submitSite(info:CronFormEventType, fileRaw: File, fileData: SideFileType) {
         await this.delay()
         const site = new Site(
             info.name,
@@ -46,5 +46,14 @@ export class BackendService implements BackendServiceType {
         sites.push(site)
 
         return true
+    }
+
+    async deleteSite(name: string): Promise<boolean> {
+        await this.delay()
+        const index = sites.findIndex((value) => value.name === name)
+        if (index >= 0) {
+            sites.splice(index, 1)
+        }
+        return index < 0
     }
 }

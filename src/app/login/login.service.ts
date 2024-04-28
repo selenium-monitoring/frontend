@@ -20,6 +20,7 @@ export class LoginService {
         .subscribe((data) => {
           const { isAuthenticated, accessToken, userData, idToken } = data
           if (isAuthenticated) {
+            console.log(data)
             localStorage.setItem('Username', userData.name)
             localStorage.setItem('Expiry', userData.exp)
             this.user = new User(userData.name, new Date(userData.exp), accessToken)
