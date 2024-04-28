@@ -16,9 +16,9 @@ export class SiteComponent {
   site?:Site
   siteName?:string
   isLoading = true
+  isVisible = false
 
-
-  constructor(private route: ActivatedRoute, private backend: BackendService, private msg: NzMessageService ) {
+  constructor(private route: ActivatedRoute, private backend: BackendService, private msg: NzMessageService, private router: Router ) {
     this.siteName = route.snapshot.paramMap.get('name') || ''
     backend.getSiteDetail(this.siteName).then((site) => {
       if (site === undefined) return
@@ -29,5 +29,15 @@ export class SiteComponent {
       }
     }).finally(() => this.isLoading = false);
     
+  }
+
+  async handleDelete() {
+    const success = await this.backend.deleteSite(this.siteName!)
+    if (!success) {
+      this.msg.error('Failed to delete site')
+      return
+    }
+    this.router.navigateByUrl("/sites")
+    this.msg.error(`Deleted site "${this.siteName}"`)
   }
 }
