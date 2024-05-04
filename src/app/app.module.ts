@@ -65,7 +65,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { environment } from 'src/environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { AuthInterceptor } from 'angular-auth-oidc-client';
+import { AbstractSecurityStorage, AuthInterceptor, DefaultLocalStorageService } from 'angular-auth-oidc-client';
 const icons: IconDefinition[] = [
   LockOutline, UserOutline, InboxOutline, DownloadOutline, ReloadOutline, FormOutline,
   MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, CalendarOutline, SettingOutline,
@@ -118,10 +118,11 @@ const icons: IconDefinition[] = [
   providers: [
     provideNzConfig(ngZorroConfig),
     provideNzI18n(en_US),
+    {provide: AbstractSecurityStorage, useClass: DefaultLocalStorageService},
     LoginService,
     {provide: TitleStrategy, useClass: appTitleStrategy},
     {provide: LOCALE_ID, useValue: "en-US"},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })

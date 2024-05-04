@@ -1,19 +1,17 @@
-import { Injectable, isDevMode } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { User } from "./user.model";
-import { OidcSecurityService } from "angular-auth-oidc-client";
+import { OidcSecurityService, PublicEventsService } from "angular-auth-oidc-client";
 import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root'})
 export class LoginService {
     private user?: User;
-  
-    constructor(private oidcSecurityService: OidcSecurityService, private router: Router) {
+    constructor(private oidcSecurityService: OidcSecurityService, private router: Router, private oidcEvents: PublicEventsService) {
       // if(isDevMode()) this.user = new User('test_user', '', new Date())
       const userName = localStorage.getItem('Username')
       if (userName !== null) {
         const expiry = localStorage.getItem('Expiry')!
         this.user = new User(userName, new Date(expiry))
-        router.navigateByUrl('/')
       }
       this.oidcSecurityService
         .checkAuth()
@@ -23,10 +21,9 @@ export class LoginService {
             console.log(data)
             localStorage.setItem('Username', userData.name)
             localStorage.setItem('Expiry', userData.exp)
-            this.user = new User(userData.name, new Date(userData.exp), accessToken)
-            router.navigateByUrl('/')
+            this.loginUser(new User(userData.name, new Date(userData.exp), accessToken))
           }
-      });
+        });
     }
   
     get getUser() {
