@@ -36,7 +36,9 @@
       <nz-spin [nzSpinning]="loggingIn">
         <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
       </nz-spin>
-      <button type="button" nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="ssoLogin()">SSO Login</button>
+      <div *ngIf="canSSO">
+        <button type="button" nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="ssoLogin()">SSO Login</button>
+      </div>
       
     </form>
   </div>

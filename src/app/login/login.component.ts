@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../backend/backend.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,8 @@ export class LoginComponent {
   remember = false
   isInvalidLogin = false
   loggingIn = false
+
+  canSSO = !environment.isMocked
 
   validateForm: FormGroup<{
     userName: FormControl<string>;
