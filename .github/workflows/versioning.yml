@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - uses: codfish/semantic-release-action@v3
         id: semantic
         with:
@@ -60,5 +61,5 @@ jobs:
 
       - name: 'Build Inventory Image'
         run: |
-          docker build . --tag ghcr.io/selenium-monitoring/frontend:latest --tag ghcr.io/selenium-monitoring/frontend:${{secrets.GITHUB_TOKEN}}
+          docker build . --tag ghcr.io/selenium-monitoring/frontend:latest --tag ghcr.io/selenium-monitoring/frontend:${{steps.semantic.outputs.release-version}}
           docker push ghcr.io/selenium-monitoring/frontend --all-tags
