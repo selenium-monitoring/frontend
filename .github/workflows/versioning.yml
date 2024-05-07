@@ -33,14 +33,18 @@ jobs:
             ]
           repository-url: https://github.com/codfish/semantic-release-action.git
           tag-format: 'v${version}'
-          additional-packages:
-            - '@semantic-release/git'
-            -  '@semantic-release/npm'
-          plugins:
-            - '@semantic-release/commit-analyzer'
-            - '@semantic-release/release-notes-generator'
-            -  '@semantic-release/npm'
-            - '@semantic-release/github'
-            - '@semantic-release/git'
+          additional-packages: |
+            [
+              '@semantic-release/git',
+              '@semantic-release/npm'
+            ]
+          plugins: |
+            [
+              '@semantic-release/commit-analyzer',
+              '@semantic-release/release-notes-generator',
+              '@semantic-release/npm',
+              '@semantic-release/github',
+              '@semantic-release/git'
+            ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
