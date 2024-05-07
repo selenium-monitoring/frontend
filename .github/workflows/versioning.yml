@@ -9,7 +9,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - uses: codfish/semantic-release-action@v3
+        id: semantic
         with:
           dry-run: true
           branches: |
@@ -48,3 +51,4 @@ jobs:
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo ${{ steps.semantic.outputs.release-version }}
