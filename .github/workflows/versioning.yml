@@ -50,4 +50,15 @@ jobs:
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ steps.semantic.outputs.release-version }}
+
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: 'Build Inventory Image'
+        run: |
+          docker build . --tag ghcr.io/selenium-monitoring/frontend:latest --tag ghcr.io/selenium-monitoring/frontend:${{secrets.GITHUB_TOKEN}}
+          docker push ghcr.io/selenium-monitoring/frontend --all-tags
