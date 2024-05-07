@@ -16,9 +16,8 @@ export class LoginService {
       this.oidcSecurityService
         .checkAuth()
         .subscribe((data) => {
-          const { isAuthenticated, accessToken, userData, idToken } = data
+          const { isAuthenticated, accessToken, userData } = data
           if (isAuthenticated) {
-            console.log(data)
             localStorage.setItem('Username', userData.name)
             localStorage.setItem('Expiry', userData.exp)
             this.loginUser(new User(userData.name, new Date(userData.exp), accessToken))

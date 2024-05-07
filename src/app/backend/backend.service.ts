@@ -115,7 +115,6 @@ export class BackendService implements BackendServiceType {
             const subscription = this.apiService.SiteItemDeleteResponse(name).subscribe({
                 next(response) {resolve(response.ok); subscription.unsubscribe()},
                 error(err: HttpErrorResponse) {
-                    console.log(err)
                     msg.error(`Error deleting site: ${err.error.error} - ${err.error.detail}`)
                     reject(err)
                 },
