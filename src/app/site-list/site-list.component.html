@@ -1,0 +1,43 @@
+<ng-template #totalTemplate let-range="range" let-total>
+    {{range[0]}}-{{range[1]}} of {{total}}
+</ng-template>
+<nz-table #siteTable [nzLoading]="allSites===undefined" [nzData]="shownSites||[]" nzShowPagination nzShowSizeChanger nzSortOrder [nzShowTotal]='totalTemplate'>
+    <thead>
+        <tr>
+            <th nzSortOrder="null" [nzSortFn]="sortByName" [(nzSortOrder)]="sortOrder" nzCustomFilter>
+                Name
+                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length>0" [nzDropdownMenu]="nameFilter">
+                    <span nz-icon nzType="search"></span>
+                </nz-filter-trigger>
+            </th>
+            <th>URL</th>
+            <th>Cron</th>
+            <th>Next Run</th>
+            <th>Created at</th>
+            <th [nzFilters]="resultFilters" [nzFilterFn]="resultFilterFunc">Last Result</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let site of siteTable.data">
+            <td><a [routerLink]="[site.name]">{{ site.name }}</a></td>
+            <td>{{ site.url }}</td>
+            <td><span nz-tooltip [nzTooltipTitle]="site.getReadableCron">
+                {{ site.cron }}
+            </span></td>
+            <td>{{ (site.getNextRun | date:'medium') || 'Invalid' }}</td>
+            <td>{{ site.dateAdded | date:'medium' }}</td>
+            <td><span nz-tooltip [nzTooltipTitle]="site.getLastRun | date:'medium'">
+                <nz-tag [nzColor]="site.lastResultAsStatus">{{ site.lastResult }}</nz-tag>
+            </span></td>
+        </tr>
+    </tbody>
+</nz-table>
+<nz-dropdown-menu #nameFilter="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>

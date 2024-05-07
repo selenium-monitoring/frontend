@@ -1,0 +1,130 @@
+<nz-upload
+    [nzType]="'drag'"
+    [nzMultiple]="false"
+    (nzChange)="handleChange($event)"
+    [nzFileList]="file ? [file] : []"
+    [nzBeforeUpload]="preprocessUpload"
+    [nzDisabled]="file !== undefined"
+>
+    <div *ngIf="file === undefined">
+        <p class="ant-upload-drag-icon">
+            <span nz-icon nzType="inbox"></span>
+        </p>
+        <p class="ant-upload-text">Click or drag file to this area to upload</p>
+        <p class="ant-upload-hint">
+            Support for a single or bulk upload.
+        </p>
+    </div>
+    <div *ngIf="file !== undefined && fileInfo">
+        <nz-descriptions>
+            <nz-descriptions-item nzTitle="Name">{{ fileInfo.name }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Version">{{ fileInfo.version }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="URL">{{ fileInfo.url }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Suites">{{ fileInfo.suites.length }} pc(s)</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Tests">{{ fileInfo.tests.length }} pc(s)</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Plugins">{{ fileInfo.plugins.length }} pc(s)</nz-descriptions-item>
+
+            <ul>
+                <li *ngFor="let url of fileInfo.urls">
+                    <nz-descriptions-item nzTitle="URLs">{{ url }}</nz-descriptions-item>
+                </li>
+            </ul>
+        </nz-descriptions>
+    </div>
+</nz-upload>
+<nz-divider nzType="horizontal"></nz-divider>
+
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div nz-col nzOffset="4">For more detail visit <a href="https://crontab.guru">https://crontab.guru</a></div>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="cron" nzRequired>Cron timing</nz-form-label>
+        <nz-form-control [nzExtra]="getCron">
+            <nz-input-group>
+                <input nz-input name="cron" type="text" id="cron" formControlName="cron">
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="isUploading"
+        [disabled]="file === undefined"
+        style="margin-top: 16px"
+        >
+        {{ isUploading ? 'Uploading' : 'Save and Upload' }}
+    </button>
+    <nz-tabset>
+        <nz-tab [nzTitle]="detailTemplate">
+            <ng-template #detailTemplate>
+                <span nz-icon nzType="form" nzTheme="outline"></span>
+                Test Details
+            </ng-template>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="name" nzRequired>Test Name</nz-form-label>
+                <nz-form-control nzErrorTip="Name of the test, must be unique">
+                    <input nz-input name="name" formControlName="name" type="text" id="name">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="repository" nzRequired>Repository</nz-form-label>
+                <nz-form-control nzErrorTip="Please add a valid repository to pull the image from, fro example: quay.io, ghcr.io, etc">
+                    <input nz-input name="repository" formControlName="repository" type="text" id="repository">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="image" nzRequired>Image</nz-form-label>
+                <nz-form-control nzErrorTip="Please add a valid image to use the test with from the provided repository">
+                    <input nz-input name="image" formControlName="image" type="text" id="image">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="tag">Tag</nz-form-label>
+                <nz-form-control nzExtra='Tag of the provided Image, default is "latest"'>
+                    <input nz-input name="tag" formControlName="tag" type="text" id="tag">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="retries">Retries</nz-form-label>
+                <nz-form-control nzErrorTip="Must be positive number" nzExtra="Number of retries before setting the test Failed">
+                    <input nz-input name="retries" formControlName="retries" type="number" id="retries">
+                </nz-form-control>
+            </nz-form-item>
+        </nz-tab>
+        <nz-tab [nzTitle]="cronTemplate">
+            <ng-template #cronTemplate>
+                <span nz-icon nzType="reload" nzTheme="outline"></span>
+                Cron Detail
+            </ng-template>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="cron-min">Cron minute</nz-form-label>
+                <nz-form-control [nzSpan]="4">
+                    <input [(ngModel)]="cronMin" (ngModelChange)="updateValues()" nz-input name="cron-min" type="text" id="cron-min" [ngModelOptions]="{standalone: true}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="cron-hour">Cron hour</nz-form-label>
+                <nz-form-control [nzSpan]="4">
+                    <input [(ngModel)]="cronHour" (ngModelChange)="updateValues()" nz-input name="cron-hour" type="text" id="cron-hour" [ngModelOptions]="{standalone: true}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="cron-day">Cron day</nz-form-label>
+                <nz-form-control [nzSpan]="4">
+                    <input [(ngModel)]="cronDay" (ngModelChange)="updateValues()" nz-input name="cron-day" type="text" id="cron-day" [ngModelOptions]="{standalone: true}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="cron-month">Cron month</nz-form-label>
+                <nz-form-control [nzSpan]="4">
+                    <input [(ngModel)]="cronMonth" (ngModelChange)="updateValues()" nz-input name="cron-month" type="text" id="cron-month" [ngModelOptions]="{standalone: true}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="4" nzFor="cron-day">Cron weekday</nz-form-label>
+                <nz-form-control [nzSpan]="4">
+                    <input [(ngModel)]="cronWeekDay" (ngModelChange)="updateValues()" nz-input name="cron-weekday" type="text" id="cron-weekday" [ngModelOptions]="{standalone: true}">
+                </nz-form-control>
+            </nz-form-item >
+        </nz-tab>
+    </nz-tabset>
+</form>

@@ -1,0 +1,34 @@
+.trigger {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+    color: rgba($color: #fff, $alpha: .65);
+    
+    position: absolute;
+    bottom: 0;
+}
+nz-sider li:first-child {
+    margin-top: 0;
+}
+
+nz-breadcrumb {
+    margin: 16px;
+}
+
+// nz-header, nz-sider {
+//     background-color: var(--theme);
+// }
+
+nz-content {
+    padding: 0 50px;
+}
+
+nz-footer {
+    text-align: center;
+}
+
+.inner-content {
+    background: #fff;
+    padding: 24px;
+    min-height: 280px;
+}

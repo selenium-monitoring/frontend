@@ -1,0 +1,54 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+      - develop-initial
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: codfish/semantic-release-action@v3
+        id: semantic
+        with:
+          dry-run: true
+          branches: |
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'main',
+              'next',
+              'next-major',
+              {
+                name: 'beta',
+                prerelease: true
+              },
+              {
+                name: 'alpha',
+                prerelease: true
+              },
+              {
+                name: 'develop-initial',
+                prerelease: true
+              }
+            ]
+          repository-url: https://github.com/codfish/semantic-release-action.git
+          tag-format: 'v${version}'
+          additional-packages: |
+            [
+              '@semantic-release/git',
+              '@semantic-release/npm'
+            ]
+          plugins: |
+            [
+              '@semantic-release/commit-analyzer',
+              '@semantic-release/release-notes-generator',
+              '@semantic-release/npm',
+              '@semantic-release/github',
+              '@semantic-release/git'
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo ${{ steps.semantic.outputs.release-version }}
